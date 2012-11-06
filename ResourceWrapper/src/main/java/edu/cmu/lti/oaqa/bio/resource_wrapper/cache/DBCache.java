@@ -270,7 +270,7 @@ public class DBCache {
 	}
 	
 	/**
-	 * Same as {@link #getTerm(String, String)}, but conveniently specifies Origin.ALL for origin.
+	 * Same as {@link #getTerm(String, Origin)}, but conveniently specifies Origin.ALL for origin.
 	 * @param termQuery String, the desired term (searched exactly)
 	 * @return complete Term (null on error or no term found)
 	 */

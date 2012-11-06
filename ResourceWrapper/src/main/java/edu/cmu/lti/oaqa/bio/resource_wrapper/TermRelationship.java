@@ -15,7 +15,7 @@ public class TermRelationship {
 	 * @param relationship Verb relationship
 	 * @param toTerm Object fromTerm
 	 * @param confidence Confidence toTerm
-	 * @param source Source of the information
+	 * @param origin Origin of the information
 	 * @param parentTerm parent fromTerm, owning concept
 	 */
 	public TermRelationship(String fromTerm, String relationship, String toTerm, double confidence, Origin origin, String parentTerm) {
@@ -33,7 +33,7 @@ public class TermRelationship {
 	 * @param relationship Verb relationship
 	 * @param toTerm Object fromTerm
 	 * @param confidence Confidence toTerm
-	 * @param source Source of the information
+	 * @param origin Origin of the information
 	 */
 	public TermRelationship(String fromTerm, String relationship, String toTerm, double confidence, Origin origin) {
 		this(fromTerm, relationship, toTerm, confidence, origin, null);

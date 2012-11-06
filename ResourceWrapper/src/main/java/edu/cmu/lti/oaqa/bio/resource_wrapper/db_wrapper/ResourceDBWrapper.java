@@ -315,7 +315,7 @@ public class ResourceDBWrapper {
 	 * @param relationship
 	 * @param toTerm
 	 * @param confidence
-	 * @param source
+	 * @param origin
 	 * @param parentTerm (null allowable)
 	 * @throws SQLException Thrown in the case of a database error or bad SQL statement
 	 */

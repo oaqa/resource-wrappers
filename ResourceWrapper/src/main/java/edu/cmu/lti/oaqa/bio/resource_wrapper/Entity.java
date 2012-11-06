@@ -9,7 +9,6 @@ import edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao.ResourceDataAccessObje
  * Represents a name, definition, type, list of synonyms, list of ID's, a list of Relation's, and the source of the information.
  * 
  * @author Collin McCormack (cmccorma), Tom Vu (tamv)
- * @param <Origin>
  * @see Relation
  * @see ID
  * @see ResourceDataAccessObject
