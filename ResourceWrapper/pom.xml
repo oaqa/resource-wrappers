@@ -9,7 +9,9 @@
 		<version>1</version>
 	</parent>
 	<scm>
-		<url>https://github.com/oaqa/resource-wrappers.git</url>
+		<url>scm:git:git@github.com:CollinM/oaqa/resource-wrappers.git</url>
+		<connection>scm:git:git@github.com:CollinM/oaqa/resource-wrappers.git</connection>
+		<developerConnection>scm:git:git@github.com:CollinM/oaqa/resource-wrappers.git</developerConnection>
 	</scm>
 	<repositories>
 		<repository>
