@@ -2,11 +2,14 @@ package edu.cmu.lti.oaqa.bio.resource_wrapper;
 
 import java.util.ArrayList;
 
+import edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao.ResourceDataAccessObject;
+
 /**
  * A class to represent the general output from any resource or service implementing ResourceWrapper.
  * Represents a name, definition, type, list of synonyms, list of ID's, a list of Relation's, and the source of the information.
  * 
  * @author Collin McCormack (cmccorma), Tom Vu (tamv)
+ * @param <Origin>
  * @see Relation
  * @see ID
  * @see ResourceDataAccessObject
@@ -18,7 +21,7 @@ public class Entity {
 	private ArrayList<String> synonyms;
 	private ArrayList<ID> ids;
 	private String type;
-	private String source;
+	private Origin origin;
 	
 	public Entity() {
 		this.relations = new ArrayList<Relation>();
@@ -26,9 +29,9 @@ public class Entity {
 		this.ids = new ArrayList<ID>();
 	}
 	
-	public Entity(String source) {
+	public Entity(Origin origin) {
 		this();
-		this.source = source;
+		this.origin = origin;
 	}
 	
 	public String getName() {
@@ -51,8 +54,8 @@ public class Entity {
 		return this.ids;
 	}
 	
-	public String getSource() {
-		return this.source;
+	public Origin getOrigin() {
+		return this.origin;
 	}
 	
 	public String toString() {
@@ -104,7 +107,7 @@ public class Entity {
 		this.type = t;
 	}
 	
-	public void setSource(String s) {
-		this.source = s;
+	public void setOrigin(Origin o) {
+		this.origin = o;
 	}
 }

@@ -3,20 +3,20 @@ package edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.SQLException;
-
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
 import edu.cmu.lti.oaqa.bio.resource_wrapper.DBInfo;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.Origin;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Term;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.TermRelationship;
 
 /**
  * Object for interfacing with the resources database.
  * @author Collin McCormack (cmccorma)
- * @version 0.1
+ * @version 0.2
  */
 public class ResourceDBWrapper {
 	
@@ -257,7 +257,7 @@ public class ResourceDBWrapper {
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				trList.add(new TermRelationship(rs.getString("term"), rs.getString("relationship"), rs.getString("value"), 
-												rs.getDouble("confidence"), rs.getString("source"), rs.getString("parentTerm")));
+												rs.getDouble("confidence"), Origin.valueOf(rs.getString("source")), rs.getString("parentTerm")));
 			}
 			
 			return trList;
@@ -296,7 +296,7 @@ public class ResourceDBWrapper {
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				trList.add(new TermRelationship(rs.getString("term"), rs.getString("relationship"), rs.getString("value"), 
-												rs.getDouble("confidence"), rs.getString("source"), rs.getString("parentTerm")));
+												rs.getDouble("confidence"), Origin.valueOf(rs.getString("source")), rs.getString("parentTerm")));
 			}
 			
 			return trList;
@@ -319,7 +319,7 @@ public class ResourceDBWrapper {
 	 * @param parentTerm (null allowable)
 	 * @throws SQLException Thrown in the case of a database error or bad SQL statement
 	 */
-	public void insertRelationship(String fromTerm, String relationship, String toTerm, double confidence, String source, String parentTerm) throws SQLException {
+	public void insertRelationship(String fromTerm, String relationship, String toTerm, double confidence, Origin origin, String parentTerm) throws SQLException {
 		Connection conn = null;
 		String query = null;
 		if (toTerm != null) {
@@ -327,11 +327,11 @@ public class ResourceDBWrapper {
 				toTerm = toTerm.substring(0, 255);
 			if (parentTerm == null) {
 				query = "INSERT INTO termrelationships (term, relationship, value, confidence, source, parentTerm) VALUES (\""
-							+ fromTerm + "\", \"" + relationship + "\", \"" + toTerm + "\", " + confidence + ", \"" + source + "\", NULL);";
+							+ fromTerm + "\", \"" + relationship + "\", \"" + toTerm + "\", " + confidence + ", \"" + origin.name() + "\", NULL);";
 			}
 			else {
 				query = "INSERT INTO termrelationships (term, relationship, value, confidence, source, parentTerm) VALUES (\""
-					+ fromTerm + "\", \"" + relationship + "\", \"" + toTerm + "\", " + confidence + ", \"" + source + "\", \"" + parentTerm +
+					+ fromTerm + "\", \"" + relationship + "\", \"" + toTerm + "\", " + confidence + ", \"" + origin.name() + "\", \"" + parentTerm +
 					"\");";
 			}
 			
@@ -351,19 +351,19 @@ public class ResourceDBWrapper {
 	
 	/**
 	 * Excludes parent term.
-	 * @see #insertRelationship(String fromTerm, String relationship, String toTerm, double confidence, String source, String parentTerm)
+	 * @see #insertRelationship(String fromTerm, String relationship, String toTerm, double confidence, Origin origin, String parentTerm)
 	 */
-	public void insertRelationship(String fromTerm, String relationship, String toTerm, double confidence, String source) throws SQLException {
-		this.insertRelationship(fromTerm, relationship, toTerm, confidence, source, null);
+	public void insertRelationship(String fromTerm, String relationship, String toTerm, double confidence, Origin origin) throws SQLException {
+		this.insertRelationship(fromTerm, relationship, toTerm, confidence, origin, null);
 	}
 	
 	/**
-	 * @see #insertRelationship(String fromTerm, String relationship, String toTerm, double confidence, String source, String parentTerm)
+	 * @see #insertRelationship(String fromTerm, String relationship, String toTerm, double confidence, Origin origin, String parentTerm)
 	 * @param tr
 	 * @throws SQLException Thrown in the case of a database error or bad SQL statement
 	 */
 	public void insertRelationship(TermRelationship tr) throws SQLException {
-		this.insertRelationship(tr.getFromTerm(), tr.getRelationship(), tr.getToTerm(), tr.getConfidence(), tr.getSource(), tr.getParentTerm());
+		this.insertRelationship(tr.getFromTerm(), tr.getRelationship(), tr.getToTerm(), tr.getConfidence(), tr.getOrigin(), tr.getParentTerm());
 	}
 	
 	/**
@@ -381,7 +381,7 @@ public class ResourceDBWrapper {
 			trNew.setToTerm(trNew.getToTerm().substring(0, 255));
 		String query = "UPDATE termrelationships SET term=\"" + trNew.getFromTerm() + "\", relationship=\"" + trNew.getRelationship() + 
 								"\", value=\"" + trNew.getToTerm() + "\", confidence=" + trNew.getConfidence() + ", source=\"" + 
-								trNew.getSource() + "\", parentTerm=\"" + trNew.getParentTerm() + "\" WHERE term=\"" + trOld.getFromTerm() + 
+								trNew.getOrigin().name() + "\", parentTerm=\"" + trNew.getParentTerm() + "\" WHERE term=\"" + trOld.getFromTerm() + 
 								"\" AND relationship=\"" + trOld.getRelationship() + "\" AND value=\"" + trOld.getToTerm() + "\";";
 		
 		try {

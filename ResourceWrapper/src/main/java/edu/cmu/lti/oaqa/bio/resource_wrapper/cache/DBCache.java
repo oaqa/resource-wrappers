@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.Origin;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Term;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.TermRelationship;
 
@@ -175,20 +176,20 @@ public class DBCache {
 	 * @param relationship
 	 * @param valueTerm
 	 * @param confidence
-	 * @param source
+	 * @param origin
 	 * @param parentTerm
 	 * @return boolean for existence of the TermRelationship in the db
 	 * @see #addRelationship(TermRelationship tr)
 	 */
-	private boolean addRelationship(String fromTerm, String relationship, String toTerm, double confidence, String source, String parentTerm) {
-		return this.addRelationship(new TermRelationship(fromTerm, relationship, toTerm, confidence, source, parentTerm));
+	private boolean addRelationship(String fromTerm, String relationship, String toTerm, double confidence, Origin origin, String parentTerm) {
+		return this.addRelationship(new TermRelationship(fromTerm, relationship, toTerm, confidence, origin, parentTerm));
 	}
 	
 	/**
 	 * @see #addRelationship(TermRelationship tr)
 	 */
-	public boolean addRelationship(String fromTerm, String relationship, String toTerm, double confidence, String source) {
-		return this.addRelationship(new TermRelationship(fromTerm, relationship, toTerm, confidence, source));
+	public boolean addRelationship(String fromTerm, String relationship, String toTerm, double confidence, Origin origin) {
+		return this.addRelationship(new TermRelationship(fromTerm, relationship, toTerm, confidence, origin));
 	}
 	
 	/**
@@ -208,17 +209,17 @@ public class DBCache {
 	/**
 	 * Get TermRelationships pertaining to the specified term that also originated at the specified source.
 	 * @param term String term
-	 * @param source canonical String source
+	 * @param origin canonical Origin
 	 * @return ArrayList of TermRelationships originating from the provided source
 	 */
-	public ArrayList<TermRelationship> getRelationshipsBySource(String term, String source) {
+	public ArrayList<TermRelationship> getRelationshipsByOrigin(String term, Origin origin) {
 		ArrayList<TermRelationship> allTR = this.getRelationships(term);
-		if (source.equals("all"))
+		if (origin == Origin.ALL)
 			return allTR;
 		else {
 			ArrayList<TermRelationship> filteredTR = new ArrayList<TermRelationship>();
 			for (TermRelationship tr : allTR) {
-				if (tr.getSource().equals(source))
+				if (tr.getOrigin() == origin)
 					filteredTR.add(tr);
 			}
 			return filteredTR;
@@ -226,24 +227,24 @@ public class DBCache {
 	}
 	
 	/**
-	 * Convenience method for {@link #getRelationshipsBySource(String, String)} where source = "all".
+	 * Convenience method for {@link #getRelationshipsByOrigin(String, Origin)} for Origin.ALL.
 	 * @param term String term
 	 * @return ArrayList of all TermRelationships pertaining to term, regardless of source
 	 */
 	public ArrayList<TermRelationship> getAllRelationships(String term) {
-		return this.getRelationshipsBySource(term, "all");
+		return this.getRelationshipsByOrigin(term, Origin.ALL);
 	}
 	
 	/**
 	 * Get a complete Term object from the database.
 	 * Tests for whether the primary term exists in the database first (though, ideally, this should be done before this method is called).  If it doesn't exist, null is returned.  
-	 * If the term is present then all relationships that originated from the specified source ("all" for all sources)
+	 * If the term is present then all relationships that originated from the specified origin (Origin.ALL for all)
 	 * are gathered and added to the Term, which is returned.
 	 * @param termQuery String, the desired term (searched exactly)
-	 * @param source String, resource name to match
+	 * @param origin Origin to match
 	 * @return complete Term (null on error or no term found)
 	 */
-	public Term getTerm(String termQuery, String source) {
+	public Term getTerm(String termQuery, Origin origin) {
 		Term outputTerm = null;
 		try {
 			// If database does not contain the desired term then it doesn't exist and return null
@@ -252,12 +253,12 @@ public class DBCache {
 			// If we've gotten this far the desired term is in the database and we can create the "hollow" Term object
 			outputTerm = new Term(termQuery);
 			// Fill the Term object with relevant relationships from the database
-			if (source.equals("all"))
+			if (origin == Origin.ALL)
 				outputTerm.addTermRelationship(this.rdb.getRelationships(outputTerm));
-			else { // Do filtering by source
+			else { // Do filtering by origin
 				ArrayList<TermRelationship> allTR = this.rdb.getRelationships(outputTerm);
 				for (TermRelationship tr : allTR) {
-					if (tr.getSource().equals(source))
+					if (tr.getOrigin() == origin)
 						outputTerm.addTermRelationship(tr);
 				}
 			}
@@ -269,25 +270,25 @@ public class DBCache {
 	}
 	
 	/**
-	 * Same as {@link #getTerm(String, String)}, but conveniently specifies "all" for source.
+	 * Same as {@link #getTerm(String, String)}, but conveniently specifies Origin.ALL for origin.
 	 * @param termQuery String, the desired term (searched exactly)
 	 * @return complete Term (null on error or no term found)
 	 */
 	public Term getTerm(String termQuery) {
-		return this.getTerm(termQuery, "all");
+		return this.getTerm(termQuery, Origin.ALL);
 	}
 	
 	/**
 	 * Retrieves the complete Term object corresponding to the supplied ID
 	 * @param id fully-qualified String ID e.g. "Authority:236789"
-	 * @param source String name of the source to retrieve from, "all" for all
+	 * @param origin Origin to retrieve from, (Origin.ALL for all)
 	 * @return complete Term object
 	 */
-	public Term getTermByID(String id, String source) {
+	public Term getTermByID(String id, Origin origin) {
 		Term outputTerm = null;
 		try {
 			String term = this.rdb.getTermByRelationshipAndValue("ID", id);
-			outputTerm = this.getTerm(term, source);
+			outputTerm = this.getTerm(term, origin);
 		} catch (SQLException e) {
 			System.out.println("A SQL exception occurred.  Check parameters and/or database status.");
 			e.printStackTrace();

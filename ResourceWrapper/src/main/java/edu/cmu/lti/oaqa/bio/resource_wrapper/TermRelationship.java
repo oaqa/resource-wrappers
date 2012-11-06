@@ -6,7 +6,7 @@ public class TermRelationship {
 	private String relationship;
 	private String toTerm;
 	private double confidence;
-	private String source;
+	private Origin origin;
 	private String parentTerm;
 	
 	/**
@@ -18,12 +18,12 @@ public class TermRelationship {
 	 * @param source Source of the information
 	 * @param parentTerm parent fromTerm, owning concept
 	 */
-	public TermRelationship(String fromTerm, String relationship, String toTerm, double confidence, String source, String parentTerm) {
+	public TermRelationship(String fromTerm, String relationship, String toTerm, double confidence, Origin origin, String parentTerm) {
 		this.fromTerm = fromTerm;
 		this.relationship = relationship;
 		this.toTerm = toTerm;
 		this.confidence = confidence;
-		this.source = source;
+		this.origin = origin;
 		this.parentTerm = parentTerm;
 	}
 	
@@ -35,8 +35,8 @@ public class TermRelationship {
 	 * @param confidence Confidence toTerm
 	 * @param source Source of the information
 	 */
-	public TermRelationship(String fromTerm, String relationship, String toTerm, double confidence, String source) {
-		this(fromTerm, relationship, toTerm, confidence, source, null);
+	public TermRelationship(String fromTerm, String relationship, String toTerm, double confidence, Origin origin) {
+		this(fromTerm, relationship, toTerm, confidence, origin, null);
 	}
 
 	public String getFromTerm() {
@@ -67,11 +67,11 @@ public class TermRelationship {
 		this.confidence = confidence;
 	}
 	
-	public String getSource() {
-		return this.source;
+	public Origin getOrigin() {
+		return this.origin;
 	}
-	public void setSource(String source) {
-		this.source = source;
+	public void setOrigin(Origin origin) {
+		this.origin = origin;
 	}
 	
 	public String getParentTerm() {
@@ -82,6 +82,6 @@ public class TermRelationship {
 	}
 	
 	public String toString() {
-		return this.fromTerm + " | " + this.relationship + " | " + this.toTerm + "; " + this.confidence + "; " + this.source + "; " + this.parentTerm;
+		return this.fromTerm + " | " + this.relationship + " | " + this.toTerm + "; " + this.confidence + "; " + this.origin + "; " + this.parentTerm;
 	}
 }
