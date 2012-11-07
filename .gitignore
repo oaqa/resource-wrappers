@@ -9,3 +9,6 @@
 # Doc Files #
 *.html
 *.css
+
+# Eclipse Files #
+.classpath
