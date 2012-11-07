@@ -17,8 +17,8 @@ import org.xml.sax.SAXException;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Entity;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.ID;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Relation;
-import edu.cmu.lti.oaqa.bio.resource_wrapper.ResourceWrapper;
-import edu.cmu.lti.oaqa.bio.resource_wrapper.ResourceWrapperExtended;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.Origin;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao.ResourceDataAccessObjectExtended;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.xml.XMLNode;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.xml.XMLTree;
 import edu.cmu.lti.oaqa.bio.species_mapper.Species;
@@ -30,11 +30,9 @@ import edu.cmu.lti.oaqa.bio.species_mapper.Species;
  * See EntrezGeneDAOExample for generic uses of this class.
  * 
  * @author Collin McCormack (cmccorma)
- * @version 0.3
- * @see ResourceWrapper
- * @see ResourceWrapperExtended
+ * @version 0.4
  */
-public class EntrezGeneDAO implements ResourceWrapperExtended {
+public class EntrezGeneDAO implements ResourceDataAccessObjectExtended {
 	
 	private static final String baseURL = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/";
 	private static final String esearch = baseURL + "esearch.fcgi?db=gene&term=";
@@ -177,7 +175,7 @@ public class EntrezGeneDAO implements ResourceWrapperExtended {
 			return null;
 		
 		// Construct Entity
-		Entity ent = new Entity("EntrezGene");
+		Entity ent = new Entity(Origin.ENTREZGENE);
 		
 		////////// Get name //////////
 		String name = "";

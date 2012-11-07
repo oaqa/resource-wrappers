@@ -6,13 +6,14 @@ import java.util.Collection;
 import java.util.List;
 
 import edu.cmu.lti.oaqa.bio.annotate.entrezgene_dao.EntrezGeneDAO;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.Origin;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.ResourceWrapper;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Term;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.TermRelationship;
-import edu.cmu.lti.oaqa.bio.resource_wrapper.db_cache.DBCache;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao.EntityTermConverter;
-import edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao.ResourceDataAccessObject;
 
-public class EntrezGeneWrapper implements ResourceDataAccessObject {
+public class EntrezGeneWrapper implements ResourceWrapper {
 	EntrezGeneDAO egw;
 	private DBCache dbc;
 	
@@ -52,7 +53,7 @@ public class EntrezGeneWrapper implements ResourceDataAccessObject {
 		
 		// Check database for first entry; if present, retrieve it
 		if (this.dbc.IDinCache("EntrezGene:"+id))
-			outputTerm = this.dbc.getTermByID("EntrezGene:"+id, "EntrezGene");
+			outputTerm = this.dbc.getTermByID("EntrezGene:"+id, Origin.ENTREZGENE);
 		// Else, retrieve it from EG
 		else {
 			try {
@@ -82,7 +83,7 @@ public class EntrezGeneWrapper implements ResourceDataAccessObject {
 			// Check for exact term presence in cache
 			if (this.dbc.inCache(termQuery)) {
 				System.out.println("Retrieving "+termQuery+" from cache...");
-				outputTerm = this.dbc.getTerm(termQuery, "EntrezGene");
+				outputTerm = this.dbc.getTerm(termQuery, Origin.ENTREZGENE);
 			}
 			// Else, use the original resource to get it
 			else {
@@ -92,7 +93,7 @@ public class EntrezGeneWrapper implements ResourceDataAccessObject {
 					// Check database for search results, see if they match the query
 					for (String id : searchResults) {
 						if (this.dbc.IDinCache(id)) {
-							Term tempTerm = this.dbc.getTermByID(id, "EntrezGene");
+							Term tempTerm = this.dbc.getTermByID(id, Origin.ENTREZGENE);
 							if (tempTerm.getTerm().equalsIgnoreCase(termQuery)) {
 								outputTerm = tempTerm;
 								break;
@@ -150,15 +151,16 @@ public class EntrezGeneWrapper implements ResourceDataAccessObject {
 		try {
 			// Search EG for termQuery
 			idResults = this.egw.search(termQuery);
-			// Trim results down to amountRequested
+			// Trim results down to amountRequested, if necessary
 			if (idResults.size() > amountRequested)
 				idResults = idResults.subList(0, amountRequested);
 			termResults = new ArrayList<Term>(idResults.size());
 			// Check database for names
 			for (String id : idResults) {
 				// If present, retrieve from database
+				id = "EntrezGene:"+id;
 				if (this.dbc.IDinCache(id))
-					termResults.add(this.dbc.getTermByID(id, "EntrezGene"));
+					termResults.add(this.dbc.getTermByID(id, Origin.ENTREZGENE));
 				// Else, retrieve from EG and add to cache
 				else {
 					try {
@@ -196,7 +198,7 @@ public class EntrezGeneWrapper implements ResourceDataAccessObject {
 			ArrayList<TermRelationship> results = resultTerm.getTermRelationshipsByRelation("synonym");
 			ArrayList<String> synonyms = new ArrayList<String>(results.size());
 			for (TermRelationship tr : results)
-				synonyms.add(tr.getValueTerm());
+				synonyms.add(tr.getToTerm());
 			return synonyms;
 		}
 	}
