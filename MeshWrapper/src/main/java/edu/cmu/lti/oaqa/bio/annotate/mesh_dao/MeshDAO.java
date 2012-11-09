@@ -16,12 +16,13 @@ import org.xml.sax.SAXException;
 
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Entity;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.ID;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.Origin;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Relation;
-import edu.cmu.lti.oaqa.bio.resource_wrapper.ResourceWrapper;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao.ResourceDataAccessObject;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.xml.XMLNode;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.xml.XMLTree;
 
-public class MeshDAO implements ResourceWrapper {
+public class MeshDAO implements ResourceDataAccessObject {
 	private static final String baseURL = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/";
 	private static final String esearch = baseURL + "esearch.fcgi?db=mesh&term=";
 	private static final String efetch = baseURL + "efetch.fcgi?db=mesh&retmode=text&id=";
@@ -91,7 +92,7 @@ public class MeshDAO implements ResourceWrapper {
 		doc.add("");
 		
 		// Create Entity
-		Entity ent = new Entity("MeSH");
+		Entity ent = new Entity(Origin.MESH);
 		
 		////////// Get name //////////
 		int nameIndex = -1;

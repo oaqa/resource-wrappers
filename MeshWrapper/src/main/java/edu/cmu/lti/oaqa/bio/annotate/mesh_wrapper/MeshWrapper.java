@@ -7,13 +7,14 @@ import java.util.List;
 
 import edu.cmu.lti.oaqa.bio.annotate.mesh_dao.MeshDAO;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Entity;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.Origin;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.ResourceWrapper;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Term;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.TermRelationship;
-import edu.cmu.lti.oaqa.bio.resource_wrapper.db_cache.DBCache;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao.EntityTermConverter;
-import edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao.ResourceDataAccessObject;
 
-public class MeshWrapper implements ResourceDataAccessObject {
+public class MeshWrapper implements ResourceWrapper {
 	MeshDAO mw;
 	DBCache dbc;
 	
@@ -40,9 +41,11 @@ public class MeshWrapper implements ResourceDataAccessObject {
 		ArrayList<String> searchResults = null;
 		
 		// Check cache for term
-		if (this.dbc.inCache(termQuery))
-			outputTerm = this.dbc.getTerm(termQuery, "MeSH");
-		else {
+		if (this.dbc.inCache(termQuery)) {
+			System.out.println("MeSH term in DB, fetching...");
+			outputTerm = this.dbc.getTerm(termQuery, Origin.MESH);
+		} else {
+			System.out.println("Searching MeSH...");
 			// Search from Mesh and get the top one
 			try {
 				searchResults = this.mw.search(termQuery);
@@ -134,7 +137,7 @@ public class MeshWrapper implements ResourceDataAccessObject {
 		// Try to find them in the cache, otherwise get them from MeSH
 		for (String id : searchResults) {
 			if (this.dbc.IDinCache("MeSH:"+id))
-				termResults.add(this.dbc.getTermByID("MeSH:"+id, "MeSH"));
+				termResults.add(this.dbc.getTermByID("MeSH:"+id, Origin.MESH));
 			else {
 				try {
 					Term tempTerm = EntityTermConverter.EntityToTerm(this.mw.fetch(id));
@@ -162,7 +165,7 @@ public class MeshWrapper implements ResourceDataAccessObject {
 			ArrayList<TermRelationship> results = resultTerm.getTermRelationshipsByRelation("synonym");
 			ArrayList<String> synonyms = new ArrayList<String>(results.size());
 			for (TermRelationship tr : results)
-				synonyms.add(tr.getValueTerm());
+				synonyms.add(tr.getToTerm());
 			return synonyms;
 		}
 	}
