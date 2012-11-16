@@ -9,6 +9,7 @@ import java.util.Collection;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Entity;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.ID;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Relation;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.Origin;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.obo.OBOGraph;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.obo.OBONode;
 
@@ -16,10 +17,10 @@ import edu.cmu.lti.oaqa.bio.resource_wrapper.obo.OBONode;
  * Wraps a Gene Ontology file.
  * 
  * @author Collin McCormack (cmccorma)
- * @version 0.1
+ * @version 0.1.1
  * @see OBOGraph
  */
-public class GODAO implements edu.cmu.lti.oaqa.bio.resource_wrapper.ResourceWrapper {
+public class GODAO implements edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao.ResourceDataAccessObject {
 
 	private OBOGraph graph;
 	
@@ -46,7 +47,7 @@ public class GODAO implements edu.cmu.lti.oaqa.bio.resource_wrapper.ResourceWrap
 	 * @return
 	 */
 	private Entity convertNodeToEntity(OBONode node) {
-		Entity retEnt = new Entity();
+		Entity retEnt = new Entity(Origin.GO);
 		///// Map fields and attributes to Entity /////
 		// Set name from term of node
 		retEnt.setName(node.getName());
@@ -77,7 +78,7 @@ public class GODAO implements edu.cmu.lti.oaqa.bio.resource_wrapper.ResourceWrap
 		// Set Type
 		retEnt.setType(node.getType());
 		// Set Source
-		retEnt.setSource("GO");
+		retEnt.setOrigin(Origin.GO);
 		return retEnt;
 	}
 	/**
