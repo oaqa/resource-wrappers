@@ -207,6 +207,7 @@ public class EntrezGeneDAO implements ResourceDataAccessObjectExtended {
 			String definition = xml.findFirstNode("Entrezgene_summary").getText();
 			ent.setDefinition(definition);
 		} catch (NullPointerException n) {
+			// No definition tags are present, so just use the description
 			ent.setDefinition(description);
 		}
 		
@@ -342,7 +343,7 @@ public class EntrezGeneDAO implements ResourceDataAccessObjectExtended {
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println("Bad connection.");
+			System.out.println("Could not read XML sent from Entrez.  Possibly a bad connection.");
 			e.printStackTrace();
 		}
 		return null;
@@ -357,21 +358,31 @@ public class EntrezGeneDAO implements ResourceDataAccessObjectExtended {
 	 * @return			An ArrayList&ltEntity&gt containing matching Entity's (max 10 items)
 	 */
 	public ArrayList<Entity> getEntities(String query) {
-		try {
-			ArrayList<Entity> allEntities = new ArrayList<Entity>();
-			ArrayList<String> results = search(query);
-			int size = results.size() < 10 ? results.size() : 10;
-			for (int i = 0; i < size; i++) {
+		ArrayList<Entity> allEntities = new ArrayList<Entity>();
+		ArrayList<String> results;
+		// Search Entrez Gene, fail gracefully if it doesn't work.
+		try { results = search(query);
+		} catch (IOException ioSearch) {
+			System.out.println("getEntities("+query+"), couldn't search Entrez gene for '"+query+"'");
+			ioSearch.printStackTrace();
+			return allEntities; // empty array
+		}
+		// How many results do we want?  Set size here.
+		int size = results.size() < 10 ? results.size() : 10;
+		for (int i = 0; i < size; i++) {
+			// Try to get each result from the Entrez web servce
+			// If we can't, fail gracefully for that entry
+			try {
 				Entity temp = fetch(results.get(i));
 				if (temp != null)
 					allEntities.add(temp);
+			} catch (IOException e) {
+				System.out.println("getEntities("+query+"): Could not retrieve '"+results.get(i)+"' from Entrez.");
+				System.out.println("IOException, most likely couldn't contact the server");
+				e.printStackTrace();
 			}
-			return allEntities;
-		} catch (IOException e) {
-			System.out.println("IOException: Could not contact server (probably)");
-			e.printStackTrace();
-			return new ArrayList<Entity>();
 		}
+		return allEntities;
 	}
 	
 	/**
@@ -385,34 +396,42 @@ public class EntrezGeneDAO implements ResourceDataAccessObjectExtended {
 	 */
 	public ArrayList<Entity> getEntities(String query, boolean exactMatch) {
 		if (exactMatch) {
-			try {
 				query = query.trim();
-				ArrayList<String> results = search(query);
+				ArrayList<String> results;
 				ArrayList<Entity> matchingEntities = new ArrayList<Entity>();
+				// Search Entrez Gene, fail gracefully if it doesn't work.
+				try { results = search(query);
+				} catch (IOException ioSearch) {
+					System.out.println("getEntities("+query+","+exactMatch+"), couldn't search Entrez gene for '"+query+"'");
+					ioSearch.printStackTrace();
+					return matchingEntities; // empty array
+				}
 				// Look through results for query match
 				outer: for (int i = 0; i < results.size(); i++) {
-					Entity tempEntity = fetch(results.get(i));
-					if (tempEntity == null)
-						continue outer;
-					// search name
-					if (tempEntity.getName().equalsIgnoreCase(query)) {
-						matchingEntities.add(tempEntity);
-						continue outer;
-					} 
-					// search synonyms
-					for (String syn : tempEntity.getSynonyms()) {
-						if (syn.equalsIgnoreCase(query)) {
+					try {
+						// fetch record from Entrez Gene
+						Entity tempEntity = fetch(results.get(i));
+						if (tempEntity == null)
+							continue outer;
+						// search name
+						if (tempEntity.getName().equalsIgnoreCase(query)) {
 							matchingEntities.add(tempEntity);
 							continue outer;
+						} 
+						// search synonyms
+						for (String syn : tempEntity.getSynonyms()) {
+							if (syn.equalsIgnoreCase(query)) {
+								matchingEntities.add(tempEntity);
+								continue outer;
+							}
 						}
+					} catch (IOException e) {
+						System.out.println("getEntities("+query+","+exactMatch+"): Could not retrieve '"+results.get(i)+"' from Entrez.");
+						System.out.println("IOException, most likely couldn't contact the server");
+						e.printStackTrace();
 					}
 				}
 				return matchingEntities;
-			} catch (IOException e) {
-				System.out.println("IOException: Could not contact server (probably)");
-				e.printStackTrace();
-				return new ArrayList<Entity>();
-			}
 		}
 		else
 			return getEntities(query);
@@ -448,18 +467,29 @@ public class EntrezGeneDAO implements ResourceDataAccessObjectExtended {
 	 * @return		An Entity, if no results then null
 	 */
 	public Entity getEntityById(String id) {
-		//TODO if the search is for a entrez gene id (i.e. [uid]), do something smarter
-		// What does the entrez gene id look like? e.g. UID:###, GENE:### ?
+		//TODO if the search is for a Entrez gene id (i.e. [uid]), do something smarter
+		// What does the Entrez gene id look like? e.g. UID:###, GENE:### ?
+		ArrayList<String> results;
+		// Attempt search, fail gracefully if it doesn't work
 		try {
-			ArrayList<String> results = search(id);
-			return fetch(results.get(0));
-		} catch (IOException e) {
-			System.out.println("IOException: Could not contact server (probably)");
-			e.printStackTrace();
+			results = search(id);
+		} catch (IOException ioSearch) {
+			System.out.println("getEntityById("+id+"), couldn't search Entrez gene for '"+id+"'");
+			ioSearch.printStackTrace();
 			return null;
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("No search results for that id");
-			e.printStackTrace();
+		}
+		// Attempt record fetch, fail gracefully if it doesn't work
+		try{
+			return fetch(results.get(0));
+		} catch (IOException ioFetch) {
+			System.out.println("getEntityById("+id+"), couldn't fetch '"+results.get(0)+"' from Entrez Gene");
+			ioFetch.printStackTrace();
+			return null;
+		} catch (IndexOutOfBoundsException idxEx) {
+			// This may never be reached, but is here for sanity's sake/legacy
+			// The only possible case is if the search returns empty (and not by failing)
+			System.out.println("getEntityById("+id+"), no search results for '"+results.get(0)+"'");
+			idxEx.printStackTrace();
 			return null;
 		}
 	}
@@ -475,33 +505,39 @@ public class EntrezGeneDAO implements ResourceDataAccessObjectExtended {
 	 */
 	public Entity getEntityById(String id, boolean exactMatch) {
 		if (exactMatch) {
-			try {
-				ArrayList<String> results = search(id);
-				Entity correctEntity = null;
-				// Look through results for id match
-				for (int i = 0; i < 20; i++) {
+			ArrayList<String> results;
+			// Attempt search in EG, fail gracefully if it doesn't work
+			try { results = search(id);
+			} catch (IOException ioSearch) {
+				System.out.println("getEntityById("+id+","+exactMatch+"), couldn't search Entrez gene for '"+id+"'");
+				ioSearch.printStackTrace();
+				return null;
+			}
+			Entity correctEntity = null;
+			// Look through results for id match
+			for (int i = 0; i < 20; i++) {
+				// Attempt to fetch record from EG, fail gracefully if it doesn't work
+				try {
 					correctEntity = fetch(results.get(i));
 					if (correctEntity == null)
 						continue;
 					// Test each ID for match to id, return if it's a hit
 					for (ID idObj : correctEntity.getIDs()) {
 						int colonLoc = idObj.toString().indexOf(':') + 1;
-						if (id.equals(idObj.toString().substring(colonLoc)) || id.equals(idObj.toString()))
+						if (id.equals(idObj.toString().substring(colonLoc)) || id.equals(idObj.toString())) // Found it!
 							return correctEntity;
 					}
+				} catch (IOException ioFetch) {
+					System.out.println("getEntityById("+id+","+exactMatch+"), couldn't fetch '"+results.get(i)+"' from Entrez Gene");
+					ioFetch.printStackTrace();
+				} catch (IndexOutOfBoundsException idxEx) {
+					System.out.println("Exhausted search results (less than 20 results), ID does not correspond to an object in this resource");
+					idxEx.printStackTrace();
+					return null;
 				}
-			} catch (IOException e) {
-				System.out.println("IOException: Could not contact server (probably)");
-				e.printStackTrace();
-				return null;
-			} catch (IndexOutOfBoundsException e) {
-				// Exhausted search results (less than 20 results)
-				System.out.println("ID does not correspond to an object in this resource");
-				e.printStackTrace();
-				return null;
 			}
 			// All search results up to #20 used and no match found
-			System.out.println("ID does not correspond to an object in this resource");
+			System.out.println("All search results up to #20 used and no match found, ID does not correspond to an object in this resource");
 			return null;
 		}
 		else
@@ -527,22 +563,30 @@ public class EntrezGeneDAO implements ResourceDataAccessObjectExtended {
 	 * @param species	A Species object, as is returned by SpeciesMapper
 	 */
 	public ArrayList<Entity> getEntities(String query, Species species) {
-		try {
-			ArrayList<Entity> allEntities = new ArrayList<Entity>();
-			query = species.getName() + "[Organism] " + query;
-			ArrayList<String> results = search(query);
-			int size = results.size() < 10 ? results.size() : 10;
-			for (int i = 0; i < size; i++) {
+		ArrayList<Entity> allEntities = new ArrayList<Entity>();
+		query = species.getName() + "[Organism] " + query;
+		ArrayList<String> results;
+		// Attempt search in EG, fail gracefully if it doesn't work
+		try{ results = search(query);
+		} catch (IOException ioSearch) {
+			System.out.println("getEntities("+query+","+species+"), couldn't search Entrez gene for '"+query+"'");
+			ioSearch.printStackTrace();
+			return allEntities;
+		}
+		// Max of 10 results, fewer if the search returned fewer
+		int size = results.size() < 10 ? results.size() : 10;
+		for (int i = 0; i < size; i++) {
+			// Attempt to fetch record from EG, fail gracefully if it doesn't work
+			try {
 				Entity temp = fetch(results.get(i));
 				if (temp != null)
 					allEntities.add(temp);
+			} catch (IOException ioFetch) {
+				System.out.println("getEntities("+query+","+species+"), couldn't fetch '"+results.get(i)+"' from Entrez Gene");
+				ioFetch.printStackTrace();
 			}
-			return allEntities;
-		} catch (IOException e) {
-			System.out.println("IOException: Could not contact server (probably)");
-			e.printStackTrace();
-			return new ArrayList<Entity>();
 		}
+		return allEntities;
 	}
 
 }
