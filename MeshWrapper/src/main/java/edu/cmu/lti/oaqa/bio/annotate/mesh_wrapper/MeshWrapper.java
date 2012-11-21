@@ -15,14 +15,14 @@ import edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao.EntityTermConverter;
 
 public class MeshWrapper implements ResourceWrapper {
-	MeshDAO mw;
+	MeshDAO md;
 	DBCache dbc;
 	
 	/**
 	 * Constructor.
 	 */
 	public MeshWrapper() {
-		this.mw = new MeshDAO();
+		this.md = new MeshDAO();
 		this.dbc = new DBCache();
 	}
 	
@@ -48,20 +48,21 @@ public class MeshWrapper implements ResourceWrapper {
 			System.out.println("Searching MeSH...");
 			// Search from Mesh and get the top one
 			try {
-				searchResults = this.mw.search(termQuery);
-			} catch (IOException e) {
-				System.out.println("MeshDAO search failed due to IO.");
-				e.printStackTrace();
+				searchResults = this.md.search(termQuery);
+			} catch (IOException ioEx) {
+				System.out.println("MeshWraper: MeshDAO search failed due to IOException, probably a bad connection.");
+				ioEx.printStackTrace();
 				return null;
 			}
 			// Fetch first result and convert to Term
 			try {
-				outputTerm = EntityTermConverter.EntityToTerm(this.mw.fetch(searchResults.get(0)));
+				outputTerm = EntityTermConverter.EntityToTerm(this.md.fetch(searchResults.get(0)));
 			} catch (IOException e) {
-				System.out.println("MeShWrapper fetch failed due to IO.");
+				System.out.println("MeshWrapper: MeshDAO fetch failed due to IOExcetion, probably a bad connection.");
 				e.printStackTrace();
 				return null;
 			}
+			// Add new term to cache
 			this.dbc.addWholeTerm(outputTerm);
 		}
 		
@@ -84,7 +85,7 @@ public class MeshWrapper implements ResourceWrapper {
 			else {
 				// Mesh - getEntities exact
 				// Not re-implementing it locally because MeSH is fast enough that the request times are tolerable
-				ArrayList<Entity> entList = this.mw.getEntities(termQuery, true);
+				ArrayList<Entity> entList = this.md.getEntities(termQuery, true);
 				// get first, add to cache, return
 				if (entList.size() > 0) {
 					outputTerm = EntityTermConverter.EntityToTerm(entList.get(0));
@@ -124,7 +125,7 @@ public class MeshWrapper implements ResourceWrapper {
 		ArrayList<Term> termResults = null;
 		// Search MeSH
 		try {
-			searchResults = this.mw.search(termQuery);
+			searchResults = this.md.search(termQuery);
 		} catch (IOException e) {
 			System.out.println("MeshDAO search failed due to IO.");
 			e.printStackTrace();
@@ -140,7 +141,7 @@ public class MeshWrapper implements ResourceWrapper {
 				termResults.add(this.dbc.getTermByID("MeSH:"+id, Origin.MESH));
 			else {
 				try {
-					Term tempTerm = EntityTermConverter.EntityToTerm(this.mw.fetch(id));
+					Term tempTerm = EntityTermConverter.EntityToTerm(this.md.fetch(id));
 					this.dbc.addWholeTerm(tempTerm);
 					termResults.add(tempTerm);
 				} catch (IOException e) {

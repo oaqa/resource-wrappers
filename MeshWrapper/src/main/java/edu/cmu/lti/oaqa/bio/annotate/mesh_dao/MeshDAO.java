@@ -32,6 +32,7 @@ public class MeshDAO implements ResourceDataAccessObject {
 	
 	/**
 	 * Constructor.
+	 * Initiates the local search cache.
 	 */
 	public MeshDAO() {
 		this.searchCache = new HashMap<String,ArrayList<String>>();
@@ -40,10 +41,10 @@ public class MeshDAO implements ResourceDataAccessObject {
 	/**
 	 * Search MeSH using the native search functionality from the web service.
 	 * @param queryTerms String, terms to query for
-	 * @return ArrayList of id Strings
+	 * @return ArrayList of id Strings, empty on error
 	 * @throws IOException
 	 */
-	public ArrayList<String> search(String queryTerms) throws IOException {
+	public ArrayList<String> search(String queryTerms) throws IOException{
 		// Construct HTTP request URL
 		String urlStr = esearch;
 		System.out.println("Searching \"" + queryTerms + "\"...");
@@ -58,19 +59,30 @@ public class MeshDAO implements ResourceDataAccessObject {
 
 		// Open URL and get XML result
 		InputStream connStream = url.openStream();
-		XMLTree xml = new XMLTree(parseXmlResult(connStream));
+		XMLTree xml;
+		// parseXmlResult will return null if an IOException occurs
+		// In this case, the XMLTree constructor will fail due to a NullPointerException
+		try {
+			xml = new XMLTree(parseXmlResult(connStream));
+		} catch (NullPointerException npExXmlTree) {
+			System.out.println("MeshDAO.search: XMLTree of search results was mal-formed, incomplete, or non-existant, rendering it null. Empty results.");
+			npExXmlTree.printStackTrace();
+			return new ArrayList<String>(0);
+		}
 		
-		// Parse XML and return ID's
+		// Find ID's and return
 		ArrayList<XMLNode> ids = xml.findNodes("Id");
 		ArrayList<String> idList = new ArrayList<String>(ids.size());
-		for (XMLNode n : ids) {
+		for (XMLNode n : ids)
 			idList.add(n.getText());
-		}
 		return idList;
 	}
 	
 	/**
 	 * Fetch a MeSH record from the web service.
+	 * Retrieves a text document record by it's id (the parameter) from the MeSH web service.  
+	 * This is parsed into the most complete Entity possible (not all MeSH records use all of the
+	 * fields) and returned. 
 	 * @param id String, internal MeSH ID
 	 * @return Entity object
 	 * @throws IOException
@@ -190,20 +202,20 @@ public class MeshDAO implements ResourceDataAccessObject {
 	/**
 	 * Method for parsing XML responses to DOM Document's (encapsulated here because the Java way of doing it is so obtuse).
 	 * @param stream	InputStream of XML information
-	 * @return			XML DOM Document
+	 * @return			XML DOM Document, null on IOException
 	 */
 	private static Document parseXmlResult(InputStream stream) {
 		DocumentBuilder xmlReader;
 		try {
 			xmlReader = xmlDBF.newDocumentBuilder();
 			return xmlReader.parse(stream);
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("Bad connection.");
-			e.printStackTrace();
+		} catch (ParserConfigurationException pcEx) {
+			pcEx.printStackTrace();
+		} catch (SAXException saxEx) {
+			saxEx.printStackTrace();
+		} catch (IOException ioEx) {
+			System.out.println("MeshDAO: could not parse the XML doc due to IOExcetpion (bad connection?).");
+			ioEx.printStackTrace();
 		}
 		return null;
 	}
@@ -211,89 +223,98 @@ public class MeshDAO implements ResourceDataAccessObject {
 	/**
 	 * Method for parsing text responses (in the form of InputStream's) to ArrayList<String>, split by '\n'
 	 * @param stream	InputStream of text information
-	 * @return			ArrayList<String> split on '\n'; null on error
+	 * @return			ArrayList<String> split on '\n'; empty on error
 	 */
 	private static ArrayList<String> parseTextResult(InputStream stream) {
+		ArrayList<String> result = new ArrayList<String>();
 		try {
+			// Read stream of text data from MeSH web service
 			InputStreamReader isr = new InputStreamReader(stream);
 			String bigStr = "";
 			while (isr.ready()) {
 				byte temp = (byte) isr.read();
 				bigStr += (char) temp;
 			}
-			
-			ArrayList<String> result = new ArrayList<String>();
-			for (String s : bigStr.split("\n")) {
+			// Split on new lines and add to returned ArrayList
+			for (String s : bigStr.split("\n"))
 				result.add(s);
-			}
-			return result;
 		} catch (IOException e) {
-			System.out.println("Stream not ready?");
+			System.out.println("MeshDAO.parseTextResult: IOException, something went wrong (stream not ready?), return null");
 			e.printStackTrace();
 		}
-		return null;
+		return result;
 	}
 	
 	/**
 	 * General query for MeSH.  Uses the built-in search function and returns the top 5 results.
 	 * @param	query	String of search terms to query with
-	 * @return			ArrayList<Entity> of of items found using query, null on error
+	 * @return			ArrayList<Entity> of items found using query, empty on error
 	 */
 	public ArrayList<Entity> getEntities(String query) {
-		try {
-			ArrayList<Entity> results = new ArrayList<Entity>();
-			ArrayList<String> ids = search(query);
-			int size = ids.size() < 5 ? ids.size() : 5;
-			for (int i = 0; i < size; i++) {
+		ArrayList<Entity> results = new ArrayList<Entity>();
+		ArrayList<String> ids;
+		try {ids = search(query);
+		} catch (IOException ioExSearch) {
+			System.out.println("MeshDAO.getEntities: search("+query+") failed due ot IOException, probably a bad connection.");
+			ioExSearch.printStackTrace();
+			return results;
+		}
+		int size = ids.size() < 5 ? ids.size() : 5;
+		for (int i = 0; i < size; i++) {
+			try {
 				Entity temp = fetch(ids.get(i));
 				if (temp != null)
 					results.add(temp);
+			} catch (IOException ioExFetch) {
+				System.out.println("MeshDAO.getEntities: fetch("+ids.get(i)+") failed tue to IOException, probably a bad connection.");
+				ioExFetch.printStackTrace();
 			}
-			return results;
-		} catch (IOException e) {
-			System.out.println("IOException: Could not contact server (probably)");
-			e.printStackTrace();
-			return null;
 		}
+		return results;
 	}
 	
 	/**
-	 * Similar to getEntities(query), the name of the items found with query must exactly match (case-insensitive) query.
+	 * Similar to getEntities(query), except the name of the items found with query must exactly match the query (case-insensitive).
 	 * @param	query		String of search terms to query with
 	 * @param	exactMatch	boolean flag for an exact match test on each item
-	 * @return				ArrayList<Entity> of exact matches
+	 * @return				ArrayList<Entity> of exact matches, empty on error
 	 */
 	public ArrayList<Entity> getEntities(String query, boolean exactMatch) {
 		if (exactMatch) {
-			try {
-				query = query.trim();
-				ArrayList<String> ids = search(query);
-				ArrayList<Entity> matchingEntities = new ArrayList<Entity>();
-				outer: for (int i = 0; i < ids.size(); i++) {
+			query = query.trim();
+			ArrayList<Entity> results = new ArrayList<Entity>();
+			ArrayList<String> ids;
+			try { ids = search(query); }
+			catch (IOException ioExSearch) {
+				System.out.println("MeshDAO.getEntities(exact): search("+query+") failed due to IOException, probably a bad connection.");
+				ioExSearch.printStackTrace();
+				return results;
+			}
+			outer: for (int i = 0; i < ids.size(); i++) {
+				try {
 					Entity tempEnt = fetch(ids.get(i));
 					if (tempEnt == null)
 						continue;
 					// search whole name
 					if (tempEnt.getName().equalsIgnoreCase(query)) {
-						matchingEntities.add(tempEnt);
+						results.add(tempEnt);
 						continue;
 					}
 					// if commas are present, search components
 					if (tempEnt.getName().contains(",")) {
 						for (String s : tempEnt.getName().split(",")) {
 							if (s.trim().equalsIgnoreCase(query)) {
-								matchingEntities.add(tempEnt);
+								results.add(tempEnt);
 								continue outer;
 							}
 						}
 					}
+				} catch (IOException ioExFetch) {
+					System.out.println("MeshDAO.getEntities(exact): fetch("+ids.get(i)+") failed due to IOException, probably a bad connection.");
+					ioExFetch.printStackTrace();
 				}
-				return matchingEntities;
-			} catch (IOException e) {
-				System.out.println("IOException: Could not contact server (probably)");
-				e.printStackTrace();
-				return null;
 			}
+			return results;
 		}
 		else
 			return getEntities(query);
@@ -308,7 +329,7 @@ public class MeshDAO implements ResourceDataAccessObject {
 	}
 	
 	/**
-	 * See getEntityByID(String query), same thing applies
+	 * See {@link #getEntityById(String)}, same thing applies
 	 */
 	public Entity getEntityById(String id, boolean exactMatch) {
 		throw new UnsupportedOperationException("Not implemented");
