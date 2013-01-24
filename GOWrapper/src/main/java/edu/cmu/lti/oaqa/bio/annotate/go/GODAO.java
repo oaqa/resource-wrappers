@@ -15,7 +15,9 @@ import edu.cmu.lti.oaqa.bio.resource_wrapper.obo.OBONode;
 
 /**
  * Wraps a Gene Ontology file.
+ * This file is currently deprecated in favor of a pre-caching approach (01/24/2013).
  * 
+ * @deprecated
  * @author Collin McCormack (cmccorma)
  * @version 0.1.1
  * @see OBOGraph
