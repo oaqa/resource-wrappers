@@ -3,6 +3,8 @@ package edu.cmu.lti.oaqa.bio.annotate.go;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,6 +13,7 @@ import edu.cmu.lti.oaqa.bio.resource_wrapper.Origin;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Term;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.TermRelationship;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper;
 
 /**
  * Loads a Gene Ontology file into the database cache.
@@ -21,6 +24,25 @@ import edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache;
 public class GO_Load {
 
 	public static void main(String[] args) {
+		
+		// Check database for existing GO entries
+		// Delete all existing GO entries from the termrelationships table (if any are present)
+		System.out.println("Checking database for existing GO entries...");
+		DBCache dbc = new DBCache(new DBInfo("jdbc:mysql://localhost:3306/bioqa", "root", "bioqa"));
+		ResourceDBWrapper rdb = dbc.getDBWrapper();
+		try {
+			int goCount = rdb.getCountForQuery("SELECT COUNT(*) FROM termrelationships WHERE source='GO';");
+			if (goCount > 0) {
+				System.out.println("Deleting "+goCount+" GO entries from termRelationships in the database...");
+				rdb.deleteRelationshipsBySource(Origin.GO);
+			}
+		} catch (SQLException sqlEx) {
+			sqlEx.printStackTrace();
+		}
+		
+		// If a GO file is specified on the command line, use it.
+		// Otherwise, read the GO file locally from the resources folder
+		System.out.println("Reading file...");
 		Scanner goScan = null;
 		try {
 			if (args.length > 0)
@@ -33,7 +55,6 @@ public class GO_Load {
 		}
 			
 		// Parse input stream into chunks of text
-		System.out.println("Reading file...");
 		ArrayList<ArrayList<String>> chunks = new ArrayList<ArrayList<String>>();
 		ArrayList<String> currentTextChunk = null;
 		while (goScan.hasNextLine()) {
@@ -57,7 +78,6 @@ public class GO_Load {
 		
 		// Add to the database
 		System.out.println("Adding objects to the database...");
-		DBCache dbc = new DBCache(new DBInfo("jdbc:mysql://localhost:3306/bioqa", "root", "bioqa"));
 		for (Term t : terms)
 			dbc.addWholeTerm(t);
 		
@@ -148,10 +168,16 @@ public class GO_Load {
 				TermRelationship tr = new TermRelationship(term.getTerm(), relation, relationID, 1.0, Origin.GO);
 				term.addTermRelationship(tr);
 			}
+			// Parse the obsolete tag/flag for a term
+			// Only present when it's value is true
+			// 'false' is implied by it's absence (which is the norm)
 			else if (attrName.equals("is_obsolete")) {
 				TermRelationship tr = new TermRelationship(term.getTerm(), "is obsolete", "true", 1.0, Origin.GO);
 				term.addTermRelationship(tr);
 			}
+			// Parse the replaced by flag
+			// Only present when the 'is_obsolete' flag is also present
+			// Its value is the GO ID of the term that is the replacement for this term
 			else if (attrName.equals("replaced_by")) {
 				String replacedID = line.substring(line.indexOf(':') + 2);
 				TermRelationship tr = new TermRelationship(term.getTerm(), "replaced by", replacedID, 1.0, Origin.GO);
@@ -168,7 +194,7 @@ public class GO_Load {
 			/* Doesn't (currently) handle:
 			 * 		xref (cross-reference to another system, should implement in the future)
 			 *		comment (human comment, don't care)
-			 * 		disjoint_from (don't care)
+			 * 		disjoint_from (set-like operation, don't care)
 			 * 		consider (similar to replaced_by, but requires human analysis)
 			 * 		union_of (not contained in original test file)
 			 * 		subset (not tracking them via subsetdef)
