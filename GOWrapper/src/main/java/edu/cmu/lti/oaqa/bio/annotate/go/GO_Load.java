@@ -85,7 +85,7 @@ public class GO_Load {
 	}
 	
 	/**
-	 * 
+	 * Convert the text from a GO file to a Term object.
 	 * 
 	 * See http://www.geneontology.org/GO.format.obo-1_2.shtml for the OBO specification.
 	 * @param chunk ArrayList of Strings containing the lines of text from the OBO file
