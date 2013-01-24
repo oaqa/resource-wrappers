@@ -1,4 +1,4 @@
-package edu.cmu.lti.oaqa.bio.annotate.go_dao;
+package edu.cmu.lti.oaqa.bio.annotate.go;
 
 import java.io.File;
 import java.io.FileNotFoundException;
