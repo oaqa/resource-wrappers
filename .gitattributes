@@ -1,4 +1,6 @@
 # These files are text and should be normalized (convert crlf => lf)
+* 	text=auto
 *.java	text diff=java
 *.txt	text
 *.obo	text
+*.sql	text
