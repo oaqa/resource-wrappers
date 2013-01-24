@@ -3,7 +3,6 @@ package edu.cmu.lti.oaqa.bio.annotate.go;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -17,9 +16,10 @@ import edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper;
 
 /**
  * Loads a Gene Ontology file into the database cache.
+ * Optionally, takes a GO file as an argument, instead of reading the hard-coded one.
  * 
  * @author Collin McCormack (cmccorma)
- * @version 0.1
+ * @version 0.2
  */
 public class GO_Load {
 
@@ -28,7 +28,7 @@ public class GO_Load {
 		// Check database for existing GO entries
 		// Delete all existing GO entries from the termrelationships table (if any are present)
 		System.out.println("Checking database for existing GO entries...");
-		DBCache dbc = new DBCache(new DBInfo("jdbc:mysql://localhost:3306/bioqa", "root", "bioqa"));
+		DBCache dbc = new DBCache(new DBInfo("resources"));
 		ResourceDBWrapper rdb = dbc.getDBWrapper();
 		try {
 			int goCount = rdb.getCountForQuery("SELECT COUNT(*) FROM termrelationships WHERE source='GO';");
