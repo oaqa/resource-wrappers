@@ -16,15 +16,18 @@ import edu.cmu.lti.oaqa.bio.resource_wrapper.TermRelationship;
 /**
  * Object for interfacing with the resources database.
  * @author Collin McCormack (cmccorma)
- * @version 0.2
+ * @version 0.2.1
  */
 public class ResourceDBWrapper {
 	
+	private DBInfo dbLogin;
+
 	/**
-	 * Constructor, currently does no actual initiation.
+	 * Constructor, takes database login information as only parameter.
+	 * @param info A database information object populated with login information
 	 */
-	public ResourceDBWrapper() {
-		;
+	public ResourceDBWrapper(DBInfo info) {
+		this.dbLogin = info;
 	}
 	
 	/**
@@ -464,8 +467,8 @@ public class ResourceDBWrapper {
 	private Connection getDBConnection() throws Exception {
 		Connection conn = null;
 		try {
-			Class.forName(DBInfo.dbClass).newInstance();
-			conn = DriverManager.getConnection(DBInfo.URL+"resources", DBInfo.userName, DBInfo.password);
+			Class.forName(this.dbLogin.dbClass).newInstance();
+			conn = DriverManager.getConnection(this.dbLogin.URL, this.dbLogin.userName, this.dbLogin.password);
 		} catch(Exception e) {
 			System.out.println("Database connection failed.");
 			e.printStackTrace();

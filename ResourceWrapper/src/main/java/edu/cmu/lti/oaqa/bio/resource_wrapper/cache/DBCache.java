@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.DBInfo;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Origin;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Term;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.TermRelationship;
@@ -12,16 +13,24 @@ import edu.cmu.lti.oaqa.bio.resource_wrapper.TermRelationship;
  * Database Cache Layer.  Uses ResourceDBWrapper to interface with the database.
  * Sits between the ReourceDataAccessObjects and the database, handles all interactions therein. 
  * @author Collin McCormack (cmccorma)
- * @version 0.1
+ * @version 0.1.1
  */
 public class DBCache {
 	private ResourceDBWrapper rdb;
 	
 	/**
-	 * Constructor.
+	 * Constructor, automatically supplies the BioQA database login information.
 	 */
 	public DBCache() {
-		this.rdb = new ResourceDBWrapper();
+		this.rdb = new ResourceDBWrapper(new DBInfo("resources"));
+	}
+	
+	/**
+	 * Constructor that accepts a DBInfo object of database login information.
+	 * @param dbLogin A DBInfo object with login information
+	 */
+	public DBCache(DBInfo dbLogin) {
+		this.rdb = new ResourceDBWrapper(dbLogin);
 	}
 	
 	/**
