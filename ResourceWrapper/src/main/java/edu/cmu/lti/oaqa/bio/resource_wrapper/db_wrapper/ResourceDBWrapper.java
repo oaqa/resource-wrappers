@@ -439,6 +439,54 @@ public class ResourceDBWrapper {
 	}
 	
 	/**
+	 * Executes the supplied query containing a 'count()' command.
+	 * Returns a -1 on error.
+	 * 
+	 * Ex: SELECT COUNT(*) FROM mytable WHERE importance='high';
+	 * 
+	 * @param query A query containing a 'count()'
+	 * @return The int result, -1 on error
+	 * @throws SQLException 
+	 */
+	public int getCountForQuery(String query) throws SQLException {
+		Connection conn = null;
+		try {
+			conn = this.getDBConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			rs.first();
+			return rs.getInt(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		} finally {
+			conn.close();
+		}
+	}
+	
+	/**
+	 * Delete all of the TermRelationship's that have a source that matches 
+	 * the supplied Origin.
+	 * 
+	 * @param source Origin enum representing the source of the information
+	 * @throws SQLException
+	 */
+	public void deleteRelationshipsBySource(Origin source) throws SQLException {
+		Connection conn = null;
+		String query = "DELETE FROM termrelationships WHERE source='"+source+"';";
+		System.out.println(query);
+		try {
+			conn = this.getDBConnection();
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			conn.close();
+		}
+	}
+	
+	/**
 	 * Executes the supplied query.  Returns the ResultSet for that query.
 	 * SHOULD ONLY BE USED FOR DEBUGGING PURPOSES, NEVER IN PRODUCTION CODE!
 	 * @param query

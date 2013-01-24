@@ -304,4 +304,13 @@ public class DBCache {
 		}
 		return outputTerm;
 	}
+	
+	/**
+	 * Retrieves the resources database wrapper.  This should only be used for extreme,
+	 * one-off cases.  Do not use this to execute commands regularly!
+	 * @return ResourceDBWrapper object pointing to the resources database
+	 */
+	public ResourceDBWrapper getDBWrapper() {
+		return this.rdb;
+	}
 }
