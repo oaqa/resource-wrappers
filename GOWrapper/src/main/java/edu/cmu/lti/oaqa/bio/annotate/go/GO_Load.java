@@ -77,9 +77,20 @@ public class GO_Load {
 			terms.add(textToTerm(c));
 		
 		// Add to the database
+		// With rudimentary progress print-out
 		System.out.println("Adding objects to the database...");
-		for (Term t : terms)
+		int counter = 0;
+		long startTime = System.currentTimeMillis();
+		long lastTime = 0;
+		for (Term t : terms) {
 			dbc.addWholeTerm(t);
+			counter++;
+			long mins = (System.currentTimeMillis() - startTime)/(1000*60);
+			if (mins != lastTime) {
+				lastTime = mins;
+				System.out.println("~"+(counter/terms.size())+"% done, "+mins+" minutes elapsed");
+			}
+		}
 		
 		System.out.println("Done");
 	}
