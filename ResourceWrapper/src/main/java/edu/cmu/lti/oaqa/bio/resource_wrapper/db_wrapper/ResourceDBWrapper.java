@@ -474,7 +474,6 @@ public class ResourceDBWrapper {
 	public void deleteRelationshipsBySource(Origin source) throws SQLException {
 		Connection conn = null;
 		String query = "DELETE FROM termrelationships WHERE source='"+source+"';";
-		System.out.println(query);
 		try {
 			conn = this.getDBConnection();
 			Statement stmt = conn.createStatement();
@@ -484,6 +483,71 @@ public class ResourceDBWrapper {
 		} finally {
 			conn.close();
 		}
+	}
+	
+	/**
+	 * Search the 'terms' table for entries similar to the parameter 'termQuery'.
+	 * Spaces in 'termQuery' are replaced with wildcards, also a wildcard prefix and suffix.
+	 * Whole words are left intact (NOT mutable for matching).
+	 * 
+	 * @param termQuery 
+	 * @return Matching terms
+	 * @throws SQLException Returns an empty ArrayList
+	 */
+	public ArrayList<String> searchTerms(String termQuery) throws SQLException {
+		Connection conn = null;
+		termQuery = termQuery.replace(' ', '%');
+		String query = "SELECT * FROM terms WHERE term LIKE '%"+termQuery+"%';";
+		ArrayList<String> results = new ArrayList<String>();
+		try {
+			conn = this.getDBConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next())
+				results.add(rs.getString(1));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			conn.close();
+		}
+		return results;
+	}
+	
+	/**
+	 * Search the 'termrelationships' table for 'term' entries similar to the parameter 'termQuery'.
+	 * Spaces in 'termQuery' are replaced with wildcards, also a wildcard prefix and suffix.
+	 * Whole words are left intact (NOT mutable for matching).
+	 * Can also specify the source of the knowledge, Origin.ALL will match all.
+	 * 
+	 * @param termQuery
+	 * @param source Origin object representing the source of the knowledge
+	 * @return ArrayList of Strings of the matching terms
+	 * @throws SQLException Returns and empty ArrayList
+	 */
+	public ArrayList<String> searchTermRelationships(String termQuery, Origin source) throws SQLException {
+		Connection conn = null;
+		termQuery = termQuery.replace(' ', '%');
+		String query = null;
+		if (source != Origin.ALL)
+			query = "SELECT * FROM termrelationships WHERE term LIKE '%"+termQuery+"%' AND source='"+source+"';";
+		else
+			query = "SELECT * FROM termrelationships WHERE term LIKE '%"+termQuery+"%';";
+		ArrayList<String> results = new ArrayList<String>();
+		try {
+			conn = this.getDBConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				String term = rs.getString(1);
+				if (!results.contains(term))
+					results.add(term);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			conn.close();
+		}
+		return results;
 	}
 	
 	/**

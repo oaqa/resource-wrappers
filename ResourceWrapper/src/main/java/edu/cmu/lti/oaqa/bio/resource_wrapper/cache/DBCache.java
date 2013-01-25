@@ -305,6 +305,28 @@ public class DBCache {
 		return outputTerm;
 	}
 	
+	public ArrayList<String> searchTerms(String termQuery) {
+		ArrayList<String> searchResults = null;
+		try {
+			searchResults = this.rdb.searchTerms(termQuery);
+		} catch (SQLException e) {
+			System.out.println("A SQL exception occurred.  Check parameters and/or database status.");
+			e.printStackTrace();
+		}
+		return searchResults;
+	}
+	
+	public ArrayList<String> searchTerms(String termQuery, Origin source) {
+		ArrayList<String> searchResults = null;
+		try {
+			searchResults = this.rdb.searchTermRelationships(termQuery, source);
+		} catch (SQLException e) {
+			System.out.println("A SQL exception occurred.  Check parameters and/or database status.");
+			e.printStackTrace();
+		}
+		return searchResults;
+	}
+	
 	/**
 	 * Retrieves the resources database wrapper.  This should only be used for extreme,
 	 * one-off cases.  Do not use this to execute commands regularly!
