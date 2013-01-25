@@ -102,6 +102,12 @@ public class GOWrapper implements ResourceWrapper {
 		}
 	}
 	
+	/**
+	 * Get a term by its GO ID.
+	 * 
+	 * @param goID String in the form "GO:XXXXXXX"
+	 * @return Term specified by the input ID
+	 */
 	public Term getTermByID(String goID) {
 		if (this.dbc.IDinCache(goID))
 			return this.dbc.getTermByID(goID, Origin.GO);
