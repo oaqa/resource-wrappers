@@ -1,0 +1,1656 @@
+Checking database for existing GO entries...
+Deleting 641 GO entries from termRelationships in the database...
+Reading file...
+Converting .obo into Term objects...
+Adding objects to the database...
+0.08090615 % done, 1 minutes elapsed
+0.15623257 % done, 2 minutes elapsed
+0.2371387 % done, 3 minutes elapsed
+0.315255 % done, 4 minutes elapsed
+0.4017409 % done, 5 minutes elapsed
+0.48822677 % done, 6 minutes elapsed
+0.566343 % done, 7 minutes elapsed
+0.6556188 % done, 8 minutes elapsed
+0.7421047 % done, 9 minutes elapsed
+0.8341703 % done, 10 minutes elapsed
+0.9094967 % done, 11 minutes elapsed
+1.0015624 % done, 12 minutes elapsed
+1.0880482 % done, 13 minutes elapsed
+1.1940632 % done, 14 minutes elapsed
+1.2972883 % done, 15 minutes elapsed
+1.3837742 % done, 16 minutes elapsed
+1.4591006 % done, 17 minutes elapsed
+1.5455865 % done, 18 minutes elapsed
+1.6432317 % done, 19 minutes elapsed
+1.7297176 % done, 20 minutes elapsed
+1.8273629 % done, 21 minutes elapsed
+1.8943198 % done, 22 minutes elapsed
+1.9808058 % done, 23 minutes elapsed
+2.0756612 % done, 24 minutes elapsed
+2.1677268 % done, 25 minutes elapsed
+2.2765317 % done, 26 minutes elapsed
+2.3825467 % done, 27 minutes elapsed
+2.4718223 % done, 28 minutes elapsed
+2.544359 % done, 29 minutes elapsed
+2.6168954 % done, 30 minutes elapsed
+2.6978016 % done, 31 minutes elapsed
+2.773128 % done, 32 minutes elapsed
+2.8428745 % done, 33 minutes elapsed
+2.9265707 % done, 34 minutes elapsed
+3.0102665 % done, 35 minutes elapsed
+3.0939627 % done, 36 minutes elapsed
+3.1776588 % done, 37 minutes elapsed
+3.261355 % done, 38 minutes elapsed
+3.3394709 % done, 39 minutes elapsed
+3.3868988 % done, 40 minutes elapsed
+3.4622252 % done, 41 minutes elapsed
+3.5459213 % done, 42 minutes elapsed
+3.6296175 % done, 43 minutes elapsed
+3.674255 % done, 44 minutes elapsed
+3.7272625 % done, 45 minutes elapsed
+3.799799 % done, 46 minutes elapsed
+3.863966 % done, 47 minutes elapsed
+3.9365027 % done, 48 minutes elapsed
+4.0118294 % done, 49 minutes elapsed
+4.0927353 % done, 50 minutes elapsed
+4.1680617 % done, 51 minutes elapsed
+4.2545476 % done, 52 minutes elapsed
+4.3410335 % done, 53 minutes elapsed
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"The process where the \"Cap structure\"' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2678)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1612)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:230)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:205)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:144)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GO", NULL)' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1811)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1725)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:345)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:369)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:145)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+4.444258 % done, 54 minutes elapsed
+4.5251646 % done, 55 minutes elapsed
+4.6060705 % done, 56 minutes elapsed
+4.6758175 % done, 57 minutes elapsed
+4.731615 % done, 58 minutes elapsed
+4.7985716 % done, 59 minutes elapsed
+4.8766875 % done, 60 minutes elapsed
+4.957594 % done, 61 minutes elapsed
+5.0524497 % done, 62 minutes elapsed
+5.1417255 % done, 63 minutes elapsed
+5.2365804 % done, 64 minutes elapsed
+5.3230667 % done, 65 minutes elapsed
+5.398393 % done, 66 minutes elapsed
+5.490459 % done, 67 minutes elapsed
+5.543466 % done, 68 minutes elapsed
+5.599263 % done, 69 minutes elapsed
+5.6466913 % done, 70 minutes elapsed
+5.6996984 % done, 71 minutes elapsed
+5.7471266 % done, 72 minutes elapsed
+5.8029237 % done, 73 minutes elapsed
+5.8531413 % done, 74 minutes elapsed
+5.8949895 % done, 75 minutes elapsed
+5.942417 % done, 76 minutes elapsed
+6.0177436 % done, 77 minutes elapsed
+6.09307 % done, 78 minutes elapsed
+6.151657 % done, 79 minutes elapsed
+6.2102447 % done, 80 minutes elapsed
+6.2548823 % done, 81 minutes elapsed
+6.3051 % done, 82 minutes elapsed
+6.3608975 % done, 83 minutes elapsed
+6.4083247 % done, 84 minutes elapsed
+6.4669123 % done, 85 minutes elapsed
+6.561767 % done, 86 minutes elapsed
+6.642674 % done, 87 minutes elapsed
+6.7347393 % done, 88 minutes elapsed
+6.832385 % done, 89 minutes elapsed
+6.9188704 % done, 90 minutes elapsed
+7.019306 % done, 91 minutes elapsed
+7.1197414 % done, 92 minutes elapsed
+7.2006474 % done, 93 minutes elapsed
+7.289923 % done, 94 minutes elapsed
+7.3764086 % done, 95 minutes elapsed
+7.468475 % done, 96 minutes elapsed
+7.5577507 % done, 97 minutes elapsed
+7.649816 % done, 98 minutes elapsed
+7.7446713 % done, 99 minutes elapsed
+7.8423166 % done, 100 minutes elapsed
+7.937172 % done, 101 minutes elapsed
+7.9846 % done, 102 minutes elapsed
+8.045978 % done, 103 minutes elapsed
+8.090614 % done, 104 minutes elapsed
+8.135252 % done, 105 minutes elapsed
+8.177101 % done, 106 minutes elapsed
+8.230108 % done, 107 minutes elapsed
+8.294275 % done, 108 minutes elapsed
+8.336123 % done, 109 minutes elapsed
+8.380761 % done, 110 minutes elapsed
+8.422609 % done, 111 minutes elapsed
+8.486776 % done, 112 minutes elapsed
+8.548153 % done, 113 minutes elapsed
+8.598371 % done, 114 minutes elapsed
+8.645799 % done, 115 minutes elapsed
+8.687647 % done, 116 minutes elapsed
+8.7378645 % done, 117 minutes elapsed
+8.793662 % done, 118 minutes elapsed
+8.846669 % done, 119 minutes elapsed
+8.899676 % done, 120 minutes elapsed
+8.955474 % done, 121 minutes elapsed
+9.033589 % done, 122 minutes elapsed
+9.078228 % done, 123 minutes elapsed
+9.131236 % done, 124 minutes elapsed
+9.167503 % done, 125 minutes elapsed
+9.212141 % done, 126 minutes elapsed
+9.267939 % done, 127 minutes elapsed
+9.315367 % done, 128 minutes elapsed
+9.371163 % done, 129 minutes elapsed
+9.429751 % done, 130 minutes elapsed
+9.4827585 % done, 131 minutes elapsed
+9.544136 % done, 132 minutes elapsed
+9.597143 % done, 133 minutes elapsed
+9.65294 % done, 134 minutes elapsed
+9.703157 % done, 135 minutes elapsed
+9.761745 % done, 136 minutes elapsed
+9.823123 % done, 137 minutes elapsed
+9.87055 % done, 138 minutes elapsed
+9.920768 % done, 139 minutes elapsed
+9.982145 % done, 140 minutes elapsed
+10.035152 % done, 141 minutes elapsed
+10.0937395 % done, 142 minutes elapsed
+10.135588 % done, 143 minutes elapsed
+10.180225 % done, 144 minutes elapsed
+10.233233 % done, 145 minutes elapsed
+10.283451 % done, 146 minutes elapsed
+10.336458 % done, 147 minutes elapsed
+10.389465 % done, 148 minutes elapsed
+10.439683 % done, 149 minutes elapsed
+10.492691 % done, 150 minutes elapsed
+10.551277 % done, 151 minutes elapsed
+10.637764 % done, 152 minutes elapsed
+10.7103 % done, 153 minutes elapsed
+10.805156 % done, 154 minutes elapsed
+10.900011 % done, 155 minutes elapsed
+10.986497 % done, 156 minutes elapsed
+11.078563 % done, 157 minutes elapsed
+11.170628 % done, 158 minutes elapsed
+11.248744 % done, 159 minutes elapsed
+11.33244 % done, 160 minutes elapsed
+11.441246 % done, 161 minutes elapsed
+11.533311 % done, 162 minutes elapsed
+11.617007 % done, 163 minutes elapsed
+11.703493 % done, 164 minutes elapsed
+11.781609 % done, 165 minutes elapsed
+11.868095 % done, 166 minutes elapsed
+11.96295 % done, 167 minutes elapsed
+12.080125 % done, 168 minutes elapsed
+12.19172 % done, 169 minutes elapsed
+12.286575 % done, 170 minutes elapsed
+12.37864 % done, 171 minutes elapsed
+12.484655 % done, 172 minutes elapsed
+12.562773 % done, 173 minutes elapsed
+12.654838 % done, 174 minutes elapsed
+12.746903 % done, 175 minutes elapsed
+12.827809 % done, 176 minutes elapsed
+12.914295 % done, 177 minutes elapsed
+13.0091505 % done, 178 minutes elapsed
+13.095636 % done, 179 minutes elapsed
+13.168173 % done, 180 minutes elapsed
+13.246289 % done, 181 minutes elapsed
+13.316037 % done, 182 minutes elapsed
+13.391362 % done, 183 minutes elapsed
+13.469479 % done, 184 minutes elapsed
+13.553175 % done, 185 minutes elapsed
+13.625711 % done, 186 minutes elapsed
+13.701038 % done, 187 minutes elapsed
+13.773574 % done, 188 minutes elapsed
+13.848901 % done, 189 minutes elapsed
+13.943756 % done, 190 minutes elapsed
+14.038612 % done, 191 minutes elapsed
+14.111148 % done, 192 minutes elapsed
+14.197634 % done, 193 minutes elapsed
+14.292489 % done, 194 minutes elapsed
+14.381764 % done, 195 minutes elapsed
+14.468251 % done, 196 minutes elapsed
+14.537997 % done, 197 minutes elapsed
+14.613324 % done, 198 minutes elapsed
+14.691441 % done, 199 minutes elapsed
+14.769557 % done, 200 minutes elapsed
+14.847673 % done, 201 minutes elapsed
+14.917419 % done, 202 minutes elapsed
+14.987166 % done, 203 minutes elapsed
+15.054123 % done, 204 minutes elapsed
+15.107131 % done, 205 minutes elapsed
+15.171298 % done, 206 minutes elapsed
+15.252204 % done, 207 minutes elapsed
+15.358218 % done, 208 minutes elapsed
+15.439124 % done, 209 minutes elapsed
+15.520032 % done, 210 minutes elapsed
+15.609307 % done, 211 minutes elapsed
+15.684633 % done, 212 minutes elapsed
+15.76554 % done, 213 minutes elapsed
+15.852025 % done, 214 minutes elapsed
+15.927352 % done, 215 minutes elapsed
+16.008259 % done, 216 minutes elapsed
+16.105904 % done, 217 minutes elapsed
+16.181229 % done, 218 minutes elapsed
+16.250977 % done, 219 minutes elapsed
+16.343042 % done, 220 minutes elapsed
+16.42953 % done, 221 minutes elapsed
+16.513224 % done, 222 minutes elapsed
+16.58576 % done, 223 minutes elapsed
+16.672247 % done, 224 minutes elapsed
+16.769892 % done, 225 minutes elapsed
+16.867538 % done, 226 minutes elapsed
+16.965181 % done, 227 minutes elapsed
+17.068407 % done, 228 minutes elapsed
+17.154894 % done, 229 minutes elapsed
+17.252539 % done, 230 minutes elapsed
+17.347393 % done, 231 minutes elapsed
+17.44225 % done, 232 minutes elapsed
+17.528734 % done, 233 minutes elapsed
+17.612432 % done, 234 minutes elapsed
+17.66823 % done, 235 minutes elapsed
+17.746346 % done, 236 minutes elapsed
+17.8412 % done, 237 minutes elapsed
+17.941635 % done, 238 minutes elapsed
+18.016962 % done, 239 minutes elapsed
+18.100658 % done, 240 minutes elapsed
+18.187145 % done, 241 minutes elapsed
+18.268051 % done, 242 minutes elapsed
+18.346167 % done, 243 minutes elapsed
+18.429863 % done, 244 minutes elapsed
+18.496819 % done, 245 minutes elapsed
+18.552616 % done, 246 minutes elapsed
+18.641891 % done, 247 minutes elapsed
+18.728378 % done, 248 minutes elapsed
+18.806496 % done, 249 minutes elapsed
+18.873451 % done, 250 minutes elapsed
+18.968306 % done, 251 minutes elapsed
+19.032475 % done, 252 minutes elapsed
+19.09943 % done, 253 minutes elapsed
+19.163599 % done, 254 minutes elapsed
+19.233345 % done, 255 minutes elapsed
+19.289143 % done, 256 minutes elapsed
+19.356098 % done, 257 minutes elapsed
+19.425846 % done, 258 minutes elapsed
+19.495592 % done, 259 minutes elapsed
+19.56534 % done, 260 minutes elapsed
+19.621136 % done, 261 minutes elapsed
+19.693672 % done, 262 minutes elapsed
+19.769 % done, 263 minutes elapsed
+19.830376 % done, 264 minutes elapsed
+19.897333 % done, 265 minutes elapsed
+19.9615 % done, 266 minutes elapsed
+20.031246 % done, 267 minutes elapsed
+20.103783 % done, 268 minutes elapsed
+20.16795 % done, 269 minutes elapsed
+20.246067 % done, 270 minutes elapsed
+20.318604 % done, 271 minutes elapsed
+20.382769 % done, 272 minutes elapsed
+20.452517 % done, 273 minutes elapsed
+20.511105 % done, 274 minutes elapsed
+20.57806 % done, 275 minutes elapsed
+20.658966 % done, 276 minutes elapsed
+20.756613 % done, 277 minutes elapsed
+20.854258 % done, 278 minutes elapsed
+20.929585 % done, 279 minutes elapsed
+21.013279 % done, 280 minutes elapsed
+21.096975 % done, 281 minutes elapsed
+21.20578 % done, 282 minutes elapsed
+21.300636 % done, 283 minutes elapsed
+21.387123 % done, 284 minutes elapsed
+21.479187 % done, 285 minutes elapsed
+21.576832 % done, 286 minutes elapsed
+21.660528 % done, 287 minutes elapsed
+21.727486 % done, 288 minutes elapsed
+21.811182 % done, 289 minutes elapsed
+21.914408 % done, 290 minutes elapsed
+21.986944 % done, 291 minutes elapsed
+22.05669 % done, 292 minutes elapsed
+22.140387 % done, 293 minutes elapsed
+22.215712 % done, 294 minutes elapsed
+22.28267 % done, 295 minutes elapsed
+22.374735 % done, 296 minutes elapsed
+22.444483 % done, 297 minutes elapsed
+22.511438 % done, 298 minutes elapsed
+22.592344 % done, 299 minutes elapsed
+22.67604 % done, 300 minutes elapsed
+22.751368 % done, 301 minutes elapsed
+22.821114 % done, 302 minutes elapsed
+22.89086 % done, 303 minutes elapsed
+22.974556 % done, 304 minutes elapsed
+23.063833 % done, 305 minutes elapsed
+23.153109 % done, 306 minutes elapsed
+23.245174 % done, 307 minutes elapsed
+23.34282 % done, 308 minutes elapsed
+23.434885 % done, 309 minutes elapsed
+23.52416 % done, 310 minutes elapsed
+23.624596 % done, 311 minutes elapsed
+23.716661 % done, 312 minutes elapsed
+23.808727 % done, 313 minutes elapsed
+23.903582 % done, 314 minutes elapsed
+23.976118 % done, 315 minutes elapsed
+24.057024 % done, 316 minutes elapsed
+24.14351 % done, 317 minutes elapsed
+24.224417 % done, 318 minutes elapsed
+24.302534 % done, 319 minutes elapsed
+24.386229 % done, 320 minutes elapsed
+24.458767 % done, 321 minutes elapsed
+24.528513 % done, 322 minutes elapsed
+24.60105 % done, 323 minutes elapsed
+24.687534 % done, 324 minutes elapsed
+24.765652 % done, 325 minutes elapsed
+24.852137 % done, 326 minutes elapsed
+24.930254 % done, 327 minutes elapsed
+24.994421 % done, 328 minutes elapsed
+25.069746 % done, 329 minutes elapsed
+25.145071 % done, 330 minutes elapsed
+25.20924 % done, 331 minutes elapsed
+25.287357 % done, 332 minutes elapsed
+25.368261 % done, 333 minutes elapsed
+25.42964 % done, 334 minutes elapsed
+25.502174 % done, 335 minutes elapsed
+25.591452 % done, 336 minutes elapsed
+25.683516 % done, 337 minutes elapsed
+25.781164 % done, 338 minutes elapsed
+25.878807 % done, 339 minutes elapsed
+25.965294 % done, 340 minutes elapsed
+26.02109 % done, 341 minutes elapsed
+26.11316 % done, 342 minutes elapsed
+26.205223 % done, 343 minutes elapsed
+26.297289 % done, 344 minutes elapsed
+26.394934 % done, 345 minutes elapsed
+26.46747 % done, 346 minutes elapsed
+26.553955 % done, 347 minutes elapsed
+26.6516 % done, 348 minutes elapsed
+26.735296 % done, 349 minutes elapsed
+26.835733 % done, 350 minutes elapsed
+26.9278 % done, 351 minutes elapsed
+26.997545 % done, 352 minutes elapsed
+27.07845 % done, 353 minutes elapsed
+27.176098 % done, 354 minutes elapsed
+27.259794 % done, 355 minutes elapsed
+27.35186 % done, 356 minutes elapsed
+27.441135 % done, 357 minutes elapsed
+27.527618 % done, 358 minutes elapsed
+27.616894 % done, 359 minutes elapsed
+27.72291 % done, 360 minutes elapsed
+27.837294 % done, 361 minutes elapsed
+27.95168 % done, 362 minutes elapsed
+28.060484 % done, 363 minutes elapsed
+28.160921 % done, 364 minutes elapsed
+28.266933 % done, 365 minutes elapsed
+28.356209 % done, 366 minutes elapsed
+28.434328 % done, 367 minutes elapsed
+28.529182 % done, 368 minutes elapsed
+28.598928 % done, 369 minutes elapsed
+28.682625 % done, 370 minutes elapsed
+28.75237 % done, 371 minutes elapsed
+28.822119 % done, 372 minutes elapsed
+28.891865 % done, 373 minutes elapsed
+28.978352 % done, 374 minutes elapsed
+29.053677 % done, 375 minutes elapsed
+29.142952 % done, 376 minutes elapsed
+29.21549 % done, 377 minutes elapsed
+29.310345 % done, 378 minutes elapsed
+29.416359 % done, 379 minutes elapsed
+29.505634 % done, 380 minutes elapsed
+29.592121 % done, 381 minutes elapsed
+29.684185 % done, 382 minutes elapsed
+29.77625 % done, 383 minutes elapsed
+29.865528 % done, 384 minutes elapsed
+29.965963 % done, 385 minutes elapsed
+30.063608 % done, 386 minutes elapsed
+30.141726 % done, 387 minutes elapsed
+30.24774 % done, 388 minutes elapsed
+30.348175 % done, 389 minutes elapsed
+30.46256 % done, 390 minutes elapsed
+30.562994 % done, 391 minutes elapsed
+30.64948 % done, 392 minutes elapsed
+30.733177 % done, 393 minutes elapsed
+30.805714 % done, 394 minutes elapsed
+30.90336 % done, 395 minutes elapsed
+30.984264 % done, 396 minutes elapsed
+31.070751 % done, 397 minutes elapsed
+31.157238 % done, 398 minutes elapsed
+31.246513 % done, 399 minutes elapsed
+31.344158 % done, 400 minutes elapsed
+31.450172 % done, 401 minutes elapsed
+31.542238 % done, 402 minutes elapsed
+31.639883 % done, 403 minutes elapsed
+31.72079 % done, 404 minutes elapsed
+31.807276 % done, 405 minutes elapsed
+31.9105 % done, 406 minutes elapsed
+31.996986 % done, 407 minutes elapsed
+32.094635 % done, 408 minutes elapsed
+32.19507 % done, 409 minutes elapsed
+32.28992 % done, 410 minutes elapsed
+32.390358 % done, 411 minutes elapsed
+32.493584 % done, 412 minutes elapsed
+32.58844 % done, 413 minutes elapsed
+32.683296 % done, 414 minutes elapsed
+32.78094 % done, 415 minutes elapsed
+32.881374 % done, 416 minutes elapsed
+32.98181 % done, 417 minutes elapsed
+33.048767 % done, 418 minutes elapsed
+33.14641 % done, 419 minutes elapsed
+33.249638 % done, 420 minutes elapsed
+33.35007 % done, 421 minutes elapsed
+33.44214 % done, 422 minutes elapsed
+33.534206 % done, 423 minutes elapsed
+33.617897 % done, 424 minutes elapsed
+33.701595 % done, 425 minutes elapsed
+33.788082 % done, 426 minutes elapsed
+33.87457 % done, 427 minutes elapsed
+33.986164 % done, 428 minutes elapsed
+34.064278 % done, 429 minutes elapsed
+34.139606 % done, 430 minutes elapsed
+34.23167 % done, 431 minutes elapsed
+34.30142 % done, 432 minutes elapsed
+34.399063 % done, 433 minutes elapsed
+34.482758 % done, 434 minutes elapsed
+34.555294 % done, 435 minutes elapsed
+34.616673 % done, 436 minutes elapsed
+34.691998 % done, 437 minutes elapsed
+34.764534 % done, 438 minutes elapsed
+34.839863 % done, 439 minutes elapsed
+34.917976 % done, 440 minutes elapsed
+34.996094 % done, 441 minutes elapsed
+35.077 % done, 442 minutes elapsed
+35.15233 % done, 443 minutes elapsed
+35.23881 % done, 444 minutes elapsed
+35.31414 % done, 445 minutes elapsed
+35.389465 % done, 446 minutes elapsed
+35.47037 % done, 447 minutes elapsed
+35.54849 % done, 448 minutes elapsed
+35.629395 % done, 449 minutes elapsed
+35.7103 % done, 450 minutes elapsed
+35.799576 % done, 451 minutes elapsed
+35.88885 % done, 452 minutes elapsed
+35.980915 % done, 453 minutes elapsed
+36.078564 % done, 454 minutes elapsed
+36.16784 % done, 455 minutes elapsed
+36.262695 % done, 456 minutes elapsed
+36.349182 % done, 457 minutes elapsed
+36.441246 % done, 458 minutes elapsed
+36.53889 % done, 459 minutes elapsed
+36.642117 % done, 460 minutes elapsed
+36.728603 % done, 461 minutes elapsed
+36.823456 % done, 462 minutes elapsed
+36.915524 % done, 463 minutes elapsed
+37.01875 % done, 464 minutes elapsed
+37.108025 % done, 465 minutes elapsed
+37.20288 % done, 466 minutes elapsed
+37.297733 % done, 467 minutes elapsed
+37.38143 % done, 468 minutes elapsed
+37.476288 % done, 469 minutes elapsed
+37.57393 % done, 470 minutes elapsed
+37.663208 % done, 471 minutes elapsed
+37.760853 % done, 472 minutes elapsed
+37.858498 % done, 473 minutes elapsed
+37.95056 % done, 474 minutes elapsed
+38.048206 % done, 475 minutes elapsed
+38.131905 % done, 476 minutes elapsed
+38.24071 % done, 477 minutes elapsed
+38.329987 % done, 478 minutes elapsed
+38.436 % done, 479 minutes elapsed
+38.530857 % done, 480 minutes elapsed
+38.62292 % done, 481 minutes elapsed
+38.712196 % done, 482 minutes elapsed
+38.798683 % done, 483 minutes elapsed
+38.87959 % done, 484 minutes elapsed
+38.954918 % done, 485 minutes elapsed
+39.030243 % done, 486 minutes elapsed
+39.113937 % done, 487 minutes elapsed
+39.192055 % done, 488 minutes elapsed
+39.28412 % done, 489 minutes elapsed
+39.370605 % done, 490 minutes elapsed
+39.46267 % done, 491 minutes elapsed
+39.554737 % done, 492 minutes elapsed
+39.644012 % done, 493 minutes elapsed
+39.727707 % done, 494 minutes elapsed
+39.800243 % done, 495 minutes elapsed
+39.89231 % done, 496 minutes elapsed
+39.978798 % done, 497 minutes elapsed
+40.06528 % done, 498 minutes elapsed
+40.14898 % done, 499 minutes elapsed
+40.243835 % done, 500 minutes elapsed
+40.321953 % done, 501 minutes elapsed
+40.39449 % done, 502 minutes elapsed
+40.464233 % done, 503 minutes elapsed
+40.54793 % done, 504 minutes elapsed
+40.586987 % done, 505 minutes elapsed
+40.62047 % done, 506 minutes elapsed
+40.667896 % done, 507 minutes elapsed
+40.74043 % done, 508 minutes elapsed
+40.815754 % done, 509 minutes elapsed
+40.918983 % done, 510 minutes elapsed
+41.00547 % done, 511 minutes elapsed
+41.094746 % done, 512 minutes elapsed
+41.17286 % done, 513 minutes elapsed
+41.259346 % done, 514 minutes elapsed
+41.334675 % done, 515 minutes elapsed
+41.41279 % done, 516 minutes elapsed
+41.496487 % done, 517 minutes elapsed
+41.57181 % done, 518 minutes elapsed
+41.6583 % done, 519 minutes elapsed
+41.75315 % done, 520 minutes elapsed
+41.81453 % done, 521 minutes elapsed
+41.898228 % done, 522 minutes elapsed
+41.948444 % done, 523 minutes elapsed
+42.0154 % done, 524 minutes elapsed
+42.0991 % done, 525 minutes elapsed
+42.18 % done, 526 minutes elapsed
+42.25533 % done, 527 minutes elapsed
+42.330654 % done, 528 minutes elapsed
+42.42272 % done, 529 minutes elapsed
+42.506416 % done, 530 minutes elapsed
+42.570583 % done, 531 minutes elapsed
+42.654278 % done, 532 minutes elapsed
+42.735188 % done, 533 minutes elapsed
+42.807724 % done, 534 minutes elapsed
+42.8691 % done, 535 minutes elapsed
+42.966743 % done, 536 minutes elapsed
+43.06997 % done, 537 minutes elapsed
+43.167614 % done, 538 minutes elapsed
+43.26247 % done, 539 minutes elapsed
+43.36012 % done, 540 minutes elapsed
+43.46334 % done, 541 minutes elapsed
+43.558197 % done, 542 minutes elapsed
+43.613995 % done, 543 minutes elapsed
+43.70048 % done, 544 minutes elapsed
+43.775806 % done, 545 minutes elapsed
+43.862293 % done, 546 minutes elapsed
+43.945988 % done, 547 minutes elapsed
+43.996204 % done, 548 minutes elapsed
+44.054794 % done, 549 minutes elapsed
+44.14965 % done, 550 minutes elapsed
+44.250084 % done, 551 minutes elapsed
+44.325413 % done, 552 minutes elapsed
+44.386787 % done, 553 minutes elapsed
+44.445374 % done, 554 minutes elapsed
+44.51791 % done, 555 minutes elapsed
+44.596027 % done, 556 minutes elapsed
+44.668564 % done, 557 minutes elapsed
+44.72715 % done, 558 minutes elapsed
+44.796898 % done, 559 minutes elapsed
+44.875015 % done, 560 minutes elapsed
+44.939182 % done, 561 minutes elapsed
+45.022877 % done, 562 minutes elapsed
+45.092625 % done, 563 minutes elapsed
+45.17911 % done, 564 minutes elapsed
+45.262806 % done, 565 minutes elapsed
+45.36882 % done, 566 minutes elapsed
+45.466465 % done, 567 minutes elapsed
+45.550163 % done, 568 minutes elapsed
+45.619907 % done, 569 minutes elapsed
+45.667336 % done, 570 minutes elapsed
+45.711975 % done, 571 minutes elapsed
+45.75661 % done, 572 minutes elapsed
+45.79846 % done, 573 minutes elapsed
+45.84031 % done, 574 minutes elapsed
+45.901688 % done, 575 minutes elapsed
+45.968643 % done, 576 minutes elapsed
+46.024437 % done, 577 minutes elapsed
+46.07745 % done, 578 minutes elapsed
+46.141613 % done, 579 minutes elapsed
+46.194622 % done, 580 minutes elapsed
+46.25879 % done, 581 minutes elapsed
+46.314587 % done, 582 minutes elapsed
+46.381542 % done, 583 minutes elapsed
+46.434547 % done, 584 minutes elapsed
+46.521034 % done, 585 minutes elapsed
+46.596363 % done, 586 minutes elapsed
+46.671688 % done, 587 minutes elapsed
+46.747013 % done, 588 minutes elapsed
+46.82513 % done, 589 minutes elapsed
+46.89488 % done, 590 minutes elapsed
+46.972992 % done, 591 minutes elapsed
+47.062267 % done, 592 minutes elapsed
+47.159916 % done, 593 minutes elapsed
+47.229664 % done, 594 minutes elapsed
+47.31615 % done, 595 minutes elapsed
+47.405426 % done, 596 minutes elapsed
+47.4947 % done, 597 minutes elapsed
+47.570026 % done, 598 minutes elapsed
+47.64814 % done, 599 minutes elapsed
+47.743 % done, 600 minutes elapsed
+47.82669 % done, 601 minutes elapsed
+47.89644 % done, 602 minutes elapsed
+47.982925 % done, 603 minutes elapsed
+48.069412 % done, 604 minutes elapsed
+48.1559 % done, 605 minutes elapsed
+48.225643 % done, 606 minutes elapsed
+48.31213 % done, 607 minutes elapsed
+48.390244 % done, 608 minutes elapsed
+48.462784 % done, 609 minutes elapsed
+48.540897 % done, 610 minutes elapsed
+48.613434 % done, 611 minutes elapsed
+48.69155 % done, 612 minutes elapsed
+48.76688 % done, 613 minutes elapsed
+48.836624 % done, 614 minutes elapsed
+48.90358 % done, 615 minutes elapsed
+48.9817 % done, 616 minutes elapsed
+49.045868 % done, 617 minutes elapsed
+49.118404 % done, 618 minutes elapsed
+49.19373 % done, 619 minutes elapsed
+49.263474 % done, 620 minutes elapsed
+49.330433 % done, 621 minutes elapsed
+49.40855 % done, 622 minutes elapsed
+49.478294 % done, 623 minutes elapsed
+49.561993 % done, 624 minutes elapsed
+49.626156 % done, 625 minutes elapsed
+49.690323 % done, 626 minutes elapsed
+49.757282 % done, 627 minutes elapsed
+49.840977 % done, 628 minutes elapsed
+49.921886 % done, 629 minutes elapsed
+49.98605 % done, 630 minutes elapsed
+50.069748 % done, 631 minutes elapsed
+50.15623 % done, 632 minutes elapsed
+50.242718 % done, 633 minutes elapsed
+50.326412 % done, 634 minutes elapsed
+50.40453 % done, 635 minutes elapsed
+50.47707 % done, 636 minutes elapsed
+50.574715 % done, 637 minutes elapsed
+50.67236 % done, 638 minutes elapsed
+50.781162 % done, 639 minutes elapsed
+50.89834 % done, 640 minutes elapsed
+50.987614 % done, 641 minutes elapsed
+51.06573 % done, 642 minutes elapsed
+51.152218 % done, 643 minutes elapsed
+51.25265 % done, 644 minutes elapsed
+51.344715 % done, 645 minutes elapsed
+51.40609 % done, 646 minutes elapsed
+51.5149 % done, 647 minutes elapsed
+51.640438 % done, 648 minutes elapsed
+51.760406 % done, 649 minutes elapsed
+51.877583 % done, 650 minutes elapsed
+51.978016 % done, 651 minutes elapsed
+52.061714 % done, 652 minutes elapsed
+52.134247 % done, 653 minutes elapsed
+52.21794 % done, 654 minutes elapsed
+52.31001 % done, 655 minutes elapsed
+52.407658 % done, 656 minutes elapsed
+52.494137 % done, 657 minutes elapsed
+52.580624 % done, 658 minutes elapsed
+52.65874 % done, 659 minutes elapsed
+52.75081 % done, 660 minutes elapsed
+52.842873 % done, 661 minutes elapsed
+52.915413 % done, 662 minutes elapsed
+52.987946 % done, 663 minutes elapsed
+53.074432 % done, 664 minutes elapsed
+53.16092 % done, 665 minutes elapsed
+53.241825 % done, 666 minutes elapsed
+53.32273 % done, 667 minutes elapsed
+53.409218 % done, 668 minutes elapsed
+53.495705 % done, 669 minutes elapsed
+53.56266 % done, 670 minutes elapsed
+53.649147 % done, 671 minutes elapsed
+53.73284 % done, 672 minutes elapsed
+53.82491 % done, 673 minutes elapsed
+53.916973 % done, 674 minutes elapsed
+54.017406 % done, 675 minutes elapsed
+54.112263 % done, 676 minutes elapsed
+54.204334 % done, 677 minutes elapsed
+54.288025 % done, 678 minutes elapsed
+54.37451 % done, 679 minutes elapsed
+54.45263 % done, 680 minutes elapsed
+54.544693 % done, 681 minutes elapsed
+54.636757 % done, 682 minutes elapsed
+54.684185 % done, 683 minutes elapsed
+54.737194 % done, 684 minutes elapsed
+54.82647 % done, 685 minutes elapsed
+54.899006 % done, 686 minutes elapsed
+54.98828 % done, 687 minutes elapsed
+55.074768 % done, 688 minutes elapsed
+55.155678 % done, 689 minutes elapsed
+55.231 % done, 690 minutes elapsed
+55.311905 % done, 691 minutes elapsed
+55.37887 % done, 692 minutes elapsed
+55.45419 % done, 693 minutes elapsed
+55.526726 % done, 694 minutes elapsed
+55.590893 % done, 695 minutes elapsed
+55.66064 % done, 696 minutes elapsed
+55.747128 % done, 697 minutes elapsed
+55.82245 % done, 698 minutes elapsed
+55.900566 % done, 699 minutes elapsed
+55.964737 % done, 700 minutes elapsed
+56.031693 % done, 701 minutes elapsed
+56.115387 % done, 702 minutes elapsed
+56.179554 % done, 703 minutes elapsed
+56.246513 % done, 704 minutes elapsed
+56.302307 % done, 705 minutes elapsed
+56.38043 % done, 706 minutes elapsed
+56.464123 % done, 707 minutes elapsed
+56.52271 % done, 708 minutes elapsed
+56.586872 % done, 709 minutes elapsed
+56.645466 % done, 710 minutes elapsed
+56.712418 % done, 711 minutes elapsed
+56.784958 % done, 712 minutes elapsed
+56.843544 % done, 713 minutes elapsed
+56.92166 % done, 714 minutes elapsed
+56.983036 % done, 715 minutes elapsed
+57.052784 % done, 716 minutes elapsed
+57.094635 % done, 717 minutes elapsed
+57.164375 % done, 718 minutes elapsed
+57.253654 % done, 719 minutes elapsed
+57.323402 % done, 720 minutes elapsed
+57.40152 % done, 721 minutes elapsed
+57.468475 % done, 722 minutes elapsed
+57.546593 % done, 723 minutes elapsed
+57.59681 % done, 724 minutes elapsed
+57.66376 % done, 725 minutes elapsed
+57.741882 % done, 726 minutes elapsed
+57.82 % done, 727 minutes elapsed
+57.88974 % done, 728 minutes elapsed
+57.95391 % done, 729 minutes elapsed
+58.04598 % done, 730 minutes elapsed
+58.143623 % done, 731 minutes elapsed
+58.241264 % done, 732 minutes elapsed
+58.29986 % done, 733 minutes elapsed
+58.358444 % done, 734 minutes elapsed
+58.41982 % done, 735 minutes elapsed
+58.503513 % done, 736 minutes elapsed
+58.573265 % done, 737 minutes elapsed
+58.648586 % done, 738 minutes elapsed
+58.721127 % done, 739 minutes elapsed
+58.799244 % done, 740 minutes elapsed
+58.88294 % done, 741 minutes elapsed
+58.96942 % done, 742 minutes elapsed
+59.04475 % done, 743 minutes elapsed
+59.108917 % done, 744 minutes elapsed
+59.161926 % done, 745 minutes elapsed
+59.209354 % done, 746 minutes elapsed
+59.27073 % done, 747 minutes elapsed
+59.326523 % done, 748 minutes elapsed
+59.385117 % done, 749 minutes elapsed
+59.44649 % done, 750 minutes elapsed
+59.51345 % done, 751 minutes elapsed
+59.59714 % done, 752 minutes elapsed
+59.66689 % done, 753 minutes elapsed
+59.745007 % done, 754 minutes elapsed
+59.81754 % done, 755 minutes elapsed
+59.904026 % done, 756 minutes elapsed
+59.982143 % done, 757 minutes elapsed
+60.063053 % done, 758 minutes elapsed
+60.14954 % done, 759 minutes elapsed
+60.241604 % done, 760 minutes elapsed
+60.31972 % done, 761 minutes elapsed
+60.408993 % done, 762 minutes elapsed
+60.492687 % done, 763 minutes elapsed
+60.559647 % done, 764 minutes elapsed
+60.634975 % done, 765 minutes elapsed
+60.69356 % done, 766 minutes elapsed
+60.78005 % done, 767 minutes elapsed
+60.847004 % done, 768 minutes elapsed
+60.944645 % done, 769 minutes elapsed
+61.033924 % done, 770 minutes elapsed
+61.1232 % done, 771 minutes elapsed
+61.19853 % done, 772 minutes elapsed
+61.29617 % done, 773 minutes elapsed
+61.382656 % done, 774 minutes elapsed
+61.4803 % done, 775 minutes elapsed
+61.58074 % done, 776 minutes elapsed
+61.653275 % done, 777 minutes elapsed
+61.717445 % done, 778 minutes elapsed
+61.803932 % done, 779 minutes elapsed
+61.884834 % done, 780 minutes elapsed
+61.96295 % done, 781 minutes elapsed
+62.057804 % done, 782 minutes elapsed
+62.133133 % done, 783 minutes elapsed
+62.19172 % done, 784 minutes elapsed
+62.25868 % done, 785 minutes elapsed
+62.347954 % done, 786 minutes elapsed
+62.426067 % done, 787 minutes elapsed
+62.49024 % done, 788 minutes elapsed
+62.543243 % done, 789 minutes elapsed
+62.573933 % done, 790 minutes elapsed
+62.652046 % done, 791 minutes elapsed
+62.719006 % done, 792 minutes elapsed
+62.78875 % done, 793 minutes elapsed
+62.85571 % done, 794 minutes elapsed
+62.919872 % done, 795 minutes elapsed
+62.972885 % done, 796 minutes elapsed
+63.045418 % done, 797 minutes elapsed
+63.092846 % done, 798 minutes elapsed
+63.170963 % done, 799 minutes elapsed
+63.243504 % done, 800 minutes elapsed
+63.285343 % done, 801 minutes elapsed
+63.321613 % done, 802 minutes elapsed
+63.352306 % done, 803 minutes elapsed
+63.385784 % done, 804 minutes elapsed
+63.41926 % done, 805 minutes elapsed
+63.45274 % done, 806 minutes elapsed
+63.4918 % done, 807 minutes elapsed
+63.558758 % done, 808 minutes elapsed
+63.63129 % done, 809 minutes elapsed
+63.71499 % done, 810 minutes elapsed
+63.762413 % done, 811 minutes elapsed
+63.804264 % done, 812 minutes elapsed
+63.8489 % done, 813 minutes elapsed
+63.896328 % done, 814 minutes elapsed
+63.9326 % done, 815 minutes elapsed
+63.977234 % done, 816 minutes elapsed
+64.024666 % done, 817 minutes elapsed
+64.07767 % done, 818 minutes elapsed
+64.13068 % done, 819 minutes elapsed
+64.175316 % done, 820 minutes elapsed
+64.21716 % done, 821 minutes elapsed
+64.25901 % done, 822 minutes elapsed
+64.29807 % done, 823 minutes elapsed
+64.33992 % done, 824 minutes elapsed
+64.387344 % done, 825 minutes elapsed
+64.43478 % done, 826 minutes elapsed
+64.493355 % done, 827 minutes elapsed
+64.537994 % done, 828 minutes elapsed
+64.582634 % done, 829 minutes elapsed
+64.63285 % done, 830 minutes elapsed
+64.680275 % done, 831 minutes elapsed
+64.73329 % done, 832 minutes elapsed
+64.77793 % done, 833 minutes elapsed
+64.825356 % done, 834 minutes elapsed
+64.8672 % done, 835 minutes elapsed
+64.90905 % done, 836 minutes elapsed
+64.95369 % done, 837 minutes elapsed
+65.00112 % done, 838 minutes elapsed
+65.05412 % done, 839 minutes elapsed
+65.12945 % done, 840 minutes elapsed
+65.207565 % done, 841 minutes elapsed
+65.27452 % done, 842 minutes elapsed
+65.33311 % done, 843 minutes elapsed
+65.38891 % done, 844 minutes elapsed
+65.455864 % done, 845 minutes elapsed
+65.51724 % done, 846 minutes elapsed
+65.5842 % done, 847 minutes elapsed
+65.64558 % done, 848 minutes elapsed
+65.70416 % done, 849 minutes elapsed
+65.76554 % done, 850 minutes elapsed
+65.8325 % done, 851 minutes elapsed
+65.89108 % done, 852 minutes elapsed
+65.96083 % done, 853 minutes elapsed
+66.01942 % done, 854 minutes elapsed
+66.097534 % done, 855 minutes elapsed
+66.178444 % done, 856 minutes elapsed
+66.259346 % done, 857 minutes elapsed
+66.329094 % done, 858 minutes elapsed
+66.40442 % done, 859 minutes elapsed
+66.46858 % done, 860 minutes elapsed
+66.53833 % done, 861 minutes elapsed
+66.613655 % done, 862 minutes elapsed
+66.66946 % done, 863 minutes elapsed
+66.74478 % done, 864 minutes elapsed
+66.78942 % done, 865 minutes elapsed
+66.85359 % done, 866 minutes elapsed
+66.94286 % done, 867 minutes elapsed
+67.03493 % done, 868 minutes elapsed
+67.11863 % done, 869 minutes elapsed
+67.21348 % done, 870 minutes elapsed
+67.28043 % done, 871 minutes elapsed
+67.36134 % done, 872 minutes elapsed
+67.43109 % done, 873 minutes elapsed
+67.52037 % done, 874 minutes elapsed
+67.60127 % done, 875 minutes elapsed
+67.68497 % done, 876 minutes elapsed
+67.75751 % done, 877 minutes elapsed
+67.81888 % done, 878 minutes elapsed
+67.89979 % done, 879 minutes elapsed
+67.97511 % done, 880 minutes elapsed
+68.04486 % done, 881 minutes elapsed
+68.1174 % done, 882 minutes elapsed
+68.18714 % done, 883 minutes elapsed
+68.26526 % done, 884 minutes elapsed
+68.33501 % done, 885 minutes elapsed
+68.404755 % done, 886 minutes elapsed
+68.47171 % done, 887 minutes elapsed
+68.53587 % done, 888 minutes elapsed
+68.60284 % done, 889 minutes elapsed
+68.66421 % done, 890 minutes elapsed
+68.72279 % done, 891 minutes elapsed
+68.795334 % done, 892 minutes elapsed
+68.87903 % done, 893 minutes elapsed
+68.95436 % done, 894 minutes elapsed
+69.02132 % done, 895 minutes elapsed
+69.08548 % done, 896 minutes elapsed
+69.160805 % done, 897 minutes elapsed
+69.233345 % done, 898 minutes elapsed
+69.29751 % done, 899 minutes elapsed
+69.375626 % done, 900 minutes elapsed
+69.44258 % done, 901 minutes elapsed
+69.509544 % done, 902 minutes elapsed
+69.57649 % done, 903 minutes elapsed
+69.643456 % done, 904 minutes elapsed
+69.713196 % done, 905 minutes elapsed
+69.78016 % done, 906 minutes elapsed
+69.847115 % done, 907 minutes elapsed
+69.9057 % done, 908 minutes elapsed
+69.981026 % done, 909 minutes elapsed
+70.05636 % done, 910 minutes elapsed
+70.13168 % done, 911 minutes elapsed
+70.20142 % done, 912 minutes elapsed
+70.27118 % done, 913 minutes elapsed
+70.34092 % done, 914 minutes elapsed
+70.416245 % done, 915 minutes elapsed
+70.488785 % done, 916 minutes elapsed
+70.544586 % done, 917 minutes elapsed
+70.63386 % done, 918 minutes elapsed
+70.69524 % done, 919 minutes elapsed
+70.77056 % done, 920 minutes elapsed
+70.85705 % done, 921 minutes elapsed
+70.92679 % done, 922 minutes elapsed
+71.00212 % done, 923 minutes elapsed
+71.08024 % done, 924 minutes elapsed
+71.16115 % done, 925 minutes elapsed
+71.22531 % done, 926 minutes elapsed
+71.29227 % done, 927 minutes elapsed
+71.362015 % done, 928 minutes elapsed
+71.423386 % done, 929 minutes elapsed
+71.495926 % done, 930 minutes elapsed
+71.576836 % done, 931 minutes elapsed
+71.66053 % done, 932 minutes elapsed
+71.72191 % done, 933 minutes elapsed
+71.800026 % done, 934 minutes elapsed
+71.87256 % done, 935 minutes elapsed
+71.959045 % done, 936 minutes elapsed
+72.02879 % done, 937 minutes elapsed
+72.07901 % done, 938 minutes elapsed
+72.14038 % done, 939 minutes elapsed
+72.19618 % done, 940 minutes elapsed
+72.27151 % done, 941 minutes elapsed
+72.35242 % done, 942 minutes elapsed
+72.42774 % done, 943 minutes elapsed
+72.51423 % done, 944 minutes elapsed
+72.59514 % done, 945 minutes elapsed
+72.69278 % done, 946 minutes elapsed
+72.787636 % done, 947 minutes elapsed
+72.885284 % done, 948 minutes elapsed
+72.96619 % done, 949 minutes elapsed
+73.04151 % done, 950 minutes elapsed
+73.10289 % done, 951 minutes elapsed
+73.15868 % done, 952 minutes elapsed
+73.22844 % done, 953 minutes elapsed
+73.30097 % done, 954 minutes elapsed
+73.3763 % done, 955 minutes elapsed
+73.44325 % done, 956 minutes elapsed
+73.51021 % done, 957 minutes elapsed
+73.57438 % done, 958 minutes elapsed
+73.641335 % done, 959 minutes elapsed
+73.71387 % done, 960 minutes elapsed
+73.78083 % done, 961 minutes elapsed
+73.847786 % done, 962 minutes elapsed
+73.91196 % done, 963 minutes elapsed
+73.978905 % done, 964 minutes elapsed
+74.043076 % done, 965 minutes elapsed
+74.10166 % done, 966 minutes elapsed
+74.165825 % done, 967 minutes elapsed
+74.24953 % done, 968 minutes elapsed
+74.31648 % done, 969 minutes elapsed
+74.39739 % done, 970 minutes elapsed
+74.47272 % done, 971 minutes elapsed
+74.550835 % done, 972 minutes elapsed
+74.62337 % done, 973 minutes elapsed
+74.6959 % done, 974 minutes elapsed
+74.7517 % done, 975 minutes elapsed
+74.82145 % done, 976 minutes elapsed
+74.86609 % done, 977 minutes elapsed
+74.933044 % done, 978 minutes elapsed
+74.98605 % done, 979 minutes elapsed
+75.05022 % done, 980 minutes elapsed
+75.11718 % done, 981 minutes elapsed
+75.1925 % done, 982 minutes elapsed
+75.23993 % done, 983 minutes elapsed
+75.28178 % done, 984 minutes elapsed
+75.35432 % done, 985 minutes elapsed
+75.421265 % done, 986 minutes elapsed
+75.48823 % done, 987 minutes elapsed
+75.53565 % done, 988 minutes elapsed
+75.59703 % done, 989 minutes elapsed
+75.644455 % done, 990 minutes elapsed
+75.72257 % done, 991 minutes elapsed
+75.770004 % done, 992 minutes elapsed
+75.842545 % done, 993 minutes elapsed
+75.90112 % done, 994 minutes elapsed
+75.97088 % done, 995 minutes elapsed
+76.01551 % done, 996 minutes elapsed
+76.07689 % done, 997 minutes elapsed
+76.13827 % done, 998 minutes elapsed
+76.19127 % done, 999 minutes elapsed
+76.26381 % done, 1000 minutes elapsed
+76.31682 % done, 1001 minutes elapsed
+76.37262 % done, 1002 minutes elapsed
+76.420044 % done, 1003 minutes elapsed
+76.49815 % done, 1004 minutes elapsed
+76.55675 % done, 1005 minutes elapsed
+76.61533 % done, 1006 minutes elapsed
+76.687874 % done, 1007 minutes elapsed
+76.75204 % done, 1008 minutes elapsed
+76.81062 % done, 1009 minutes elapsed
+76.85805 % done, 1010 minutes elapsed
+76.91664 % done, 1011 minutes elapsed
+76.964066 % done, 1012 minutes elapsed
+77.03381 % done, 1013 minutes elapsed
+77.10356 % done, 1014 minutes elapsed
+77.176094 % done, 1015 minutes elapsed
+77.23747 % done, 1016 minutes elapsed
+77.301636 % done, 1017 minutes elapsed
+77.35744 % done, 1018 minutes elapsed
+77.42439 % done, 1019 minutes elapsed
+77.49693 % done, 1020 minutes elapsed
+77.56668 % done, 1021 minutes elapsed
+77.630844 % done, 1022 minutes elapsed
+77.71454 % done, 1023 minutes elapsed
+77.76755 % done, 1024 minutes elapsed
+77.828926 % done, 1025 minutes elapsed
+77.909836 % done, 1026 minutes elapsed
+77.99353 % done, 1027 minutes elapsed
+78.05769 % done, 1028 minutes elapsed
+78.077225 % done, 1029 minutes elapsed
+78.14697 % done, 1030 minutes elapsed
+78.199974 % done, 1031 minutes elapsed
+78.24182 % done, 1032 minutes elapsed
+78.30599 % done, 1033 minutes elapsed
+78.38132 % done, 1034 minutes elapsed
+78.45665 % done, 1035 minutes elapsed
+78.5236 % done, 1036 minutes elapsed
+78.57103 % done, 1037 minutes elapsed
+78.64357 % done, 1038 minutes elapsed
+78.73284 % done, 1039 minutes elapsed
+78.81375 % done, 1040 minutes elapsed
+78.905815 % done, 1041 minutes elapsed
+78.98951 % done, 1042 minutes elapsed
+79.06204 % done, 1043 minutes elapsed
+79.109474 % done, 1044 minutes elapsed
+79.182014 % done, 1045 minutes elapsed
+79.24618 % done, 1046 minutes elapsed
+79.3215 % done, 1047 minutes elapsed
+79.396835 % done, 1048 minutes elapsed
+79.46378 % done, 1049 minutes elapsed
+79.56143 % done, 1050 minutes elapsed
+79.67024 % done, 1051 minutes elapsed
+79.74836 % done, 1052 minutes elapsed
+79.82368 % done, 1053 minutes elapsed
+79.89901 % done, 1054 minutes elapsed
+80.00502 % done, 1055 minutes elapsed
+80.0943 % done, 1056 minutes elapsed
+80.16683 % done, 1057 minutes elapsed
+80.250534 % done, 1058 minutes elapsed
+80.3147 % done, 1059 minutes elapsed
+80.39839 % done, 1060 minutes elapsed
+80.49325 % done, 1061 minutes elapsed
+80.588104 % done, 1062 minutes elapsed
+80.68296 % done, 1063 minutes elapsed
+80.766655 % done, 1064 minutes elapsed
+80.83361 % done, 1065 minutes elapsed
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"A crystalline exocytotic organelle composed of small, acidic proteins existing ' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2678)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1612)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:230)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:205)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:144)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GO", NULL)' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1811)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1725)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:345)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:369)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:145)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+80.91731 % done, 1066 minutes elapsed
+81.03169 % done, 1067 minutes elapsed
+81.13492 % done, 1068 minutes elapsed
+81.24094 % done, 1069 minutes elapsed
+81.31905 % done, 1070 minutes elapsed
+81.41391 % done, 1071 minutes elapsed
+81.49481 % done, 1072 minutes elapsed
+81.57851 % done, 1073 minutes elapsed
+81.66778 % done, 1074 minutes elapsed
+81.75148 % done, 1075 minutes elapsed
+81.83797 % done, 1076 minutes elapsed
+81.916084 % done, 1077 minutes elapsed
+81.99699 % done, 1078 minutes elapsed
+82.06952 % done, 1079 minutes elapsed
+82.15043 % done, 1080 minutes elapsed
+82.23134 % done, 1081 minutes elapsed
+82.317825 % done, 1082 minutes elapsed
+82.4071 % done, 1083 minutes elapsed
+82.49358 % done, 1084 minutes elapsed
+82.5717 % done, 1085 minutes elapsed
+82.66097 % done, 1086 minutes elapsed
+82.74188 % done, 1087 minutes elapsed
+82.82837 % done, 1088 minutes elapsed
+82.903694 % done, 1089 minutes elapsed
+82.99576 % done, 1090 minutes elapsed
+83.07667 % done, 1091 minutes elapsed
+83.16036 % done, 1092 minutes elapsed
+83.241264 % done, 1093 minutes elapsed
+83.32497 % done, 1094 minutes elapsed
+83.41424 % done, 1095 minutes elapsed
+83.5063 % done, 1096 minutes elapsed
+83.59558 % done, 1097 minutes elapsed
+83.687645 % done, 1098 minutes elapsed
+83.7825 % done, 1099 minutes elapsed
+83.86899 % done, 1100 minutes elapsed
+83.955475 % done, 1101 minutes elapsed
+84.04196 % done, 1102 minutes elapsed
+84.12008 % done, 1103 minutes elapsed
+84.195404 % done, 1104 minutes elapsed
+84.28747 % done, 1105 minutes elapsed
+84.38512 % done, 1106 minutes elapsed
+84.46881 % done, 1107 minutes elapsed
+84.55809 % done, 1108 minutes elapsed
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"The process in which a relatively unspecialized cell acquires specialized featu' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2678)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1612)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:230)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:205)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:144)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GO", NULL)' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1811)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1725)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:345)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:369)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:145)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"The process in which the developmental fate of a cell becomes restricted such t' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2678)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1612)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:230)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:205)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:144)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GO", NULL)' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1811)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1725)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:345)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:369)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:145)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+84.65294 % done, 1109 minutes elapsed
+84.73664 % done, 1110 minutes elapsed
+84.8315 % done, 1111 minutes elapsed
+84.917984 % done, 1112 minutes elapsed
+85.023994 % done, 1113 minutes elapsed
+85.130005 % done, 1114 minutes elapsed
+85.22765 % done, 1115 minutes elapsed
+85.32809 % done, 1116 minutes elapsed
+85.42294 % done, 1117 minutes elapsed
+85.49827 % done, 1118 minutes elapsed
+85.57359 % done, 1119 minutes elapsed
+85.648926 % done, 1120 minutes elapsed
+85.72704 % done, 1121 minutes elapsed
+85.79678 % done, 1122 minutes elapsed
+85.852585 % done, 1123 minutes elapsed
+85.95302 % done, 1124 minutes elapsed
+86.02555 % done, 1125 minutes elapsed
+86.10646 % done, 1126 minutes elapsed
+86.17621 % done, 1127 minutes elapsed
+86.24037 % done, 1128 minutes elapsed
+86.32407 % done, 1129 minutes elapsed
+86.39661 % done, 1130 minutes elapsed
+86.466354 % done, 1131 minutes elapsed
+86.54447 % done, 1132 minutes elapsed
+86.636536 % done, 1133 minutes elapsed
+86.7286 % done, 1134 minutes elapsed
+86.80672 % done, 1135 minutes elapsed
+86.8653 % done, 1136 minutes elapsed
+86.937836 % done, 1137 minutes elapsed
+87.018745 % done, 1138 minutes elapsed
+87.12198 % done, 1139 minutes elapsed
+87.21962 % done, 1140 minutes elapsed
+87.28378 % done, 1141 minutes elapsed
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"A phospholipid scrambling process that results in the appearance of phosphatidy' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2678)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1612)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:230)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:205)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:144)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GO", NULL)' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1811)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1725)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:345)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:369)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:145)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+87.36469 % done, 1142 minutes elapsed
+87.44281 % done, 1143 minutes elapsed
+87.53208 % done, 1144 minutes elapsed
+87.60183 % done, 1145 minutes elapsed
+87.677155 % done, 1146 minutes elapsed
+87.76086 % done, 1147 minutes elapsed
+87.82223 % done, 1148 minutes elapsed
+87.91151 % done, 1149 minutes elapsed
+87.97568 % done, 1150 minutes elapsed
+88.062164 % done, 1151 minutes elapsed
+88.13748 % done, 1152 minutes elapsed
+88.23234 % done, 1153 minutes elapsed
+88.3244 % done, 1154 minutes elapsed
+88.416466 % done, 1155 minutes elapsed
+88.5197 % done, 1156 minutes elapsed
+88.614555 % done, 1157 minutes elapsed
+88.68987 % done, 1158 minutes elapsed
+88.77915 % done, 1159 minutes elapsed
+88.86842 % done, 1160 minutes elapsed
+88.9577 % done, 1161 minutes elapsed
+89.05535 % done, 1162 minutes elapsed
+89.139046 % done, 1163 minutes elapsed
+89.22832 % done, 1164 minutes elapsed
+89.314804 % done, 1165 minutes elapsed
+89.39571 % done, 1166 minutes elapsed
+89.493355 % done, 1167 minutes elapsed
+89.57706 % done, 1168 minutes elapsed
+89.66633 % done, 1169 minutes elapsed
+89.7305 % done, 1170 minutes elapsed
+89.79188 % done, 1171 minutes elapsed
+89.88115 % done, 1172 minutes elapsed
+89.976006 % done, 1173 minutes elapsed
+90.056915 % done, 1174 minutes elapsed
+90.137825 % done, 1175 minutes elapsed
+90.22989 % done, 1176 minutes elapsed
+90.32753 % done, 1177 minutes elapsed
+90.411224 % done, 1178 minutes elapsed
+90.5005 % done, 1179 minutes elapsed
+90.58699 % done, 1180 minutes elapsed
+90.68742 % done, 1181 minutes elapsed
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"The process whose specific outcome is the progression of a glomerular visceral ' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2678)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1612)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:230)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:205)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:144)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GO", NULL)' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1811)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1725)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:345)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:369)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:145)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+90.78228 % done, 1182 minutes elapsed
+90.86877 % done, 1183 minutes elapsed
+90.971985 % done, 1184 minutes elapsed
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"The process in which a relatively unspecialized cell acquires specialized featu' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2678)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1612)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:230)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:205)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:144)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GO", NULL)' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1811)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1725)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:345)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:369)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:145)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+91.061264 % done, 1185 minutes elapsed
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"The process in which the developmental fate of a cell becomes restricted such t' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2678)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1612)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:230)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:205)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:144)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GO", NULL)' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1811)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1725)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:345)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:369)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:145)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+91.15612 % done, 1186 minutes elapsed
+91.25656 % done, 1187 minutes elapsed
+91.348625 % done, 1188 minutes elapsed
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"The process in which a relatively unspecialized cell acquires specialized featu' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2678)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1612)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:230)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.relationshipExists(ResourceDBWrapper.java:205)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:144)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'GO", NULL)' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1053)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2728)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1811)
+	at com.mysql.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1725)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:345)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper.insertRelationship(ResourceDBWrapper.java:369)
+	at edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache.addWholeTerm(DBCache.java:145)
+	at edu.cmu.lti.oaqa.bio.annotate.go.GO_Load.main(GO_Load.java:86)
+91.4379 % done, 1189 minutes elapsed
+91.527176 % done, 1190 minutes elapsed
+91.616455 % done, 1191 minutes elapsed
+91.70852 % done, 1192 minutes elapsed
+91.78663 % done, 1193 minutes elapsed
+91.864746 % done, 1194 minutes elapsed
+91.93729 % done, 1195 minutes elapsed
+92.00424 % done, 1196 minutes elapsed
+92.08794 % done, 1197 minutes elapsed
+92.18 % done, 1198 minutes elapsed
+92.27765 % done, 1199 minutes elapsed
+92.36971 % done, 1200 minutes elapsed
+92.45062 % done, 1201 minutes elapsed
+92.53432 % done, 1202 minutes elapsed
+92.62359 % done, 1203 minutes elapsed
+92.70729 % done, 1204 minutes elapsed
+92.77703 % done, 1205 minutes elapsed
+92.86352 % done, 1206 minutes elapsed
+92.95558 % done, 1207 minutes elapsed
+93.05602 % done, 1208 minutes elapsed
+93.1453 % done, 1209 minutes elapsed
+93.22341 % done, 1210 minutes elapsed
+93.307106 % done, 1211 minutes elapsed
+93.388016 % done, 1212 minutes elapsed
+93.468925 % done, 1213 minutes elapsed
+93.54146 % done, 1214 minutes elapsed
+93.64748 % done, 1215 minutes elapsed
+93.73954 % done, 1216 minutes elapsed
+93.84834 % done, 1217 minutes elapsed
+93.945984 % done, 1218 minutes elapsed
+94.04084 % done, 1219 minutes elapsed
+94.14965 % done, 1220 minutes elapsed
+94.241714 % done, 1221 minutes elapsed
+94.31983 % done, 1222 minutes elapsed
+94.39794 % done, 1223 minutes elapsed
+94.47606 % done, 1224 minutes elapsed
+94.562546 % done, 1225 minutes elapsed
+94.643456 % done, 1226 minutes elapsed
+94.72715 % done, 1227 minutes elapsed
+94.802475 % done, 1228 minutes elapsed
+94.88059 % done, 1229 minutes elapsed
+94.95313 % done, 1230 minutes elapsed
+95.02846 % done, 1231 minutes elapsed
+95.10099 % done, 1232 minutes elapsed
+95.17911 % done, 1233 minutes elapsed
+95.25164 % done, 1234 minutes elapsed
+95.34371 % done, 1235 minutes elapsed
+95.44694 % done, 1236 minutes elapsed
+95.54737 % done, 1237 minutes elapsed
+95.65617 % done, 1238 minutes elapsed
+95.756615 % done, 1239 minutes elapsed
+95.86821 % done, 1240 minutes elapsed
+95.95469 % done, 1241 minutes elapsed
+96.057915 % done, 1242 minutes elapsed
+96.11651 % done, 1243 minutes elapsed
+96.166725 % done, 1244 minutes elapsed
+96.202995 % done, 1245 minutes elapsed
+96.24205 % done, 1246 minutes elapsed
+96.26995 % done, 1247 minutes elapsed
+96.31458 % done, 1248 minutes elapsed
+96.33691 % done, 1249 minutes elapsed
+96.370384 % done, 1250 minutes elapsed
+96.434555 % done, 1251 minutes elapsed
+96.49872 % done, 1252 minutes elapsed
+96.557304 % done, 1253 minutes elapsed
+96.60752 % done, 1254 minutes elapsed
+96.67448 % done, 1255 minutes elapsed
+96.73864 % done, 1256 minutes elapsed
+96.80281 % done, 1257 minutes elapsed
+96.866974 % done, 1258 minutes elapsed
+96.931145 % done, 1259 minutes elapsed
+96.98415 % done, 1260 minutes elapsed
+97.04553 % done, 1261 minutes elapsed
+97.109695 % done, 1262 minutes elapsed
+97.171074 % done, 1263 minutes elapsed
+97.22966 % done, 1264 minutes elapsed
+97.29104 % done, 1265 minutes elapsed
+97.349625 % done, 1266 minutes elapsed
+97.40263 % done, 1267 minutes elapsed
+97.45843 % done, 1268 minutes elapsed
+97.51702 % done, 1269 minutes elapsed
+97.572815 % done, 1270 minutes elapsed
+97.63978 % done, 1271 minutes elapsed
+97.70115 % done, 1272 minutes elapsed
+97.75694 % done, 1273 minutes elapsed
+97.8267 % done, 1274 minutes elapsed
+97.89086 % done, 1275 minutes elapsed
+97.95503 % done, 1276 minutes elapsed
+98.01362 % done, 1277 minutes elapsed
+98.07778 % done, 1278 minutes elapsed
+98.13916 % done, 1279 minutes elapsed
+98.20054 % done, 1280 minutes elapsed
+98.26191 % done, 1281 minutes elapsed
+98.31771 % done, 1282 minutes elapsed
+98.37072 % done, 1283 minutes elapsed
+98.42094 % done, 1284 minutes elapsed
+98.47673 % done, 1285 minutes elapsed
+98.54369 % done, 1286 minutes elapsed
+98.60786 % done, 1287 minutes elapsed
+98.66365 % done, 1288 minutes elapsed
+98.722244 % done, 1289 minutes elapsed
+98.791985 % done, 1290 minutes elapsed
+98.85895 % done, 1291 minutes elapsed
+98.934265 % done, 1292 minutes elapsed
+98.998436 % done, 1293 minutes elapsed
+99.05702 % done, 1294 minutes elapsed
+99.11561 % done, 1295 minutes elapsed
+99.16025 % done, 1296 minutes elapsed
+99.21884 % done, 1297 minutes elapsed
+99.28021 % done, 1298 minutes elapsed
+99.34996 % done, 1299 minutes elapsed
+99.45598 % done, 1300 minutes elapsed
+99.534096 % done, 1301 minutes elapsed
+99.603836 % done, 1302 minutes elapsed
+99.66522 % done, 1303 minutes elapsed
+99.7238 % done, 1304 minutes elapsed
+99.78239 % done, 1305 minutes elapsed
+99.84656 % done, 1306 minutes elapsed
+99.907936 % done, 1307 minutes elapsed
+99.95815 % done, 1308 minutes elapsed
+Done
