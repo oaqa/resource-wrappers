@@ -19,7 +19,7 @@ import edu.cmu.lti.oaqa.bio.resource_wrapper.db_wrapper.ResourceDBWrapper;
  * Optionally, takes a GO file as an argument, instead of reading the hard-coded one.
  * 
  * @author Collin McCormack (cmccorma)
- * @version 0.2
+ * @version 0.2.1
  */
 public class GO_Load {
 
@@ -140,7 +140,7 @@ public class GO_Load {
 			}
 			// Parse the definition of the term
 			else if (attrName.equals("def")) {
-				String def = line.substring(line.indexOf(" \"") + 2, line.indexOf("\" "));
+				String def = line.substring(line.indexOf(" \"") + 2, line.lastIndexOf("\" "));
 				TermRelationship tr = new TermRelationship(term.getTerm(), "definition", def, 1.0, Origin.GO);
 				term.addTermRelationship(tr);
 			}

@@ -39,9 +39,9 @@ public class ResourceDBWrapper {
 	public boolean termExists(String term) throws SQLException {
 		Connection conn = null;
 		boolean result = false;
+		String query = "SELECT COUNT(*) FROM terms WHERE term=\"" + term + "\";";
 		try {
 			conn = this.getDBConnection();
-			String query = "SELECT COUNT(*) FROM terms WHERE term=\"" + term + "\";";
 			
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
@@ -52,6 +52,7 @@ public class ResourceDBWrapper {
 			else
 				return false;
 		} catch (Exception e) {
+			System.out.println("Query: "+query);
 			e.printStackTrace();
 		} finally {
 			conn.close();
@@ -74,9 +75,9 @@ public class ResourceDBWrapper {
 	 */
 	public void insertTerm(String term) throws SQLException {
 		Connection conn = null;
+		String query = "INSERT INTO terms VALUES (\"" + term + "\");";
 		try {
 			conn = this.getDBConnection();
-			String query = "INSERT INTO terms VALUES (\"" + term + "\");";
 			
 			// Test to see if the term is already in the database
 			// Only insert the term if it is NOT present
@@ -85,6 +86,7 @@ public class ResourceDBWrapper {
 				stmt.executeUpdate(query);
 			}
 		} catch(Exception e) {
+			System.out.println("Query: "+query);
 			e.printStackTrace();
 		} finally {
 			conn.close();
@@ -109,7 +111,6 @@ public class ResourceDBWrapper {
 		Connection conn = null;
 		// DELETE cascades to TermRelationship's 'term' and 'value'
 		String query = "DELETE FROM terms WHERE term = \"" + term + "\";";
-		
 		try {
 			conn = this.getDBConnection();
 			
@@ -118,6 +119,7 @@ public class ResourceDBWrapper {
 				stmt.executeUpdate(query);
 			}
 		} catch (Exception e) {
+			System.out.println("Query: "+query);
 			e.printStackTrace();
 		} finally {
 			conn.close();
@@ -153,6 +155,7 @@ public class ResourceDBWrapper {
 			else
 				return null;
 		} catch (Exception e) {
+			System.out.println("Query: "+query);
 			e.printStackTrace();
 			return null;
 		} finally {
@@ -181,6 +184,7 @@ public class ResourceDBWrapper {
 			else
 				return false;
 		} catch (Exception e) {
+			System.out.println("Query: "+query);
 			e.printStackTrace();
 			return false;
 		} finally {
@@ -234,6 +238,7 @@ public class ResourceDBWrapper {
 			else
 				return false;
 		} catch (Exception e) {
+			System.out.println("Query: "+query);
 			e.printStackTrace();
 			return false;
 		} finally {
@@ -265,6 +270,7 @@ public class ResourceDBWrapper {
 			
 			return trList;
 		} catch (Exception e) {
+			System.out.println("Query: "+query);
 			e.printStackTrace();
 			return trList;
 		} finally {
@@ -304,6 +310,7 @@ public class ResourceDBWrapper {
 			
 			return trList;
 		} catch (Exception e) {
+			System.out.println("Query: "+query);
 			e.printStackTrace();
 			return trList;
 		} finally {
@@ -344,6 +351,7 @@ public class ResourceDBWrapper {
 				Statement stmt = conn.createStatement();
 				stmt.executeUpdate(query);
 			} catch (Exception e) {
+				System.out.println("Query: "+query);
 				e.printStackTrace();
 			} finally {
 				conn.close();
@@ -395,6 +403,7 @@ public class ResourceDBWrapper {
 				System.out.println("UPDATE!");
 				stmt.executeUpdate(query);
 		} catch (Exception e) {
+			System.out.println("Query: "+query);
 			e.printStackTrace();
 		} finally {
 			conn.close();
@@ -423,6 +432,7 @@ public class ResourceDBWrapper {
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate(query);
 		} catch (Exception e) {
+			System.out.println("Query: "+query);
 			e.printStackTrace();
 		} finally {
 			conn.close();
@@ -457,6 +467,7 @@ public class ResourceDBWrapper {
 			rs.first();
 			return rs.getInt(1);
 		} catch (Exception e) {
+			System.out.println("Query: "+query);
 			e.printStackTrace();
 			return -1;
 		} finally {
@@ -479,6 +490,7 @@ public class ResourceDBWrapper {
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate(query);
 		} catch (Exception e) {
+			System.out.println("Query: "+query);
 			e.printStackTrace();
 		} finally {
 			conn.close();
@@ -506,6 +518,7 @@ public class ResourceDBWrapper {
 			while (rs.next())
 				results.add(rs.getString(1));
 		} catch (Exception e) {
+			System.out.println("Query: "+query);
 			e.printStackTrace();
 		} finally {
 			conn.close();
@@ -543,6 +556,7 @@ public class ResourceDBWrapper {
 					results.add(term);
 			}
 		} catch (Exception e) {
+			System.out.println("Query: "+query);
 			e.printStackTrace();
 		} finally {
 			conn.close();
@@ -564,6 +578,7 @@ public class ResourceDBWrapper {
 			Statement stmt = conn.createStatement();
 			return stmt.executeQuery(query);
 		} catch (Exception e) {
+			System.out.println("Query: "+query);
 			e.printStackTrace();
 			return null;
 		} finally {
