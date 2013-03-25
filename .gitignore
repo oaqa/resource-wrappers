@@ -1,5 +1,6 @@
 # Compiled Files #
 */target/**
+*/bin/**
 *.class
 
 # Package Files #
