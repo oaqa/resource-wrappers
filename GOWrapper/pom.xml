@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.cmu.lti.oaqa.bio.annotate</groupId>
 	<artifactId>go-wrapper</artifactId>
-	<version>1.0</version>
+	<version>1.0.1</version>
 	<parent>
 		<groupId>edu.cmu.lti.oaqa</groupId>
 		<artifactId>oaqa</artifactId>
@@ -59,6 +59,11 @@
 			<groupId>edu.cmu.lti.oaqa.bio.annotate</groupId>
 			<artifactId>resource-wrapper</artifactId>
 			<version>2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.24</version>
 		</dependency>
 	</dependencies>
 </project>
