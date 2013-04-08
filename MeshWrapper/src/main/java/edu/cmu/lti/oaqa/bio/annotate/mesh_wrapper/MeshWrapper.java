@@ -3,8 +3,6 @@ package edu.cmu.lti.oaqa.bio.annotate.mesh_wrapper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
 import edu.cmu.lti.oaqa.bio.annotate.mesh_dao.MeshDAO;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Entity;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Origin;

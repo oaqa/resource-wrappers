@@ -82,9 +82,11 @@ public class MeshDAO {
 	
 	/**
 	 * Fetch a MeSH record from the web service.
-	 * Retrieves a text document record by it's id (the parameter) from the MeSH web service.  
-	 * This is parsed into the most complete Entity possible (not all MeSH records use all of the
-	 * fields) and returned. 
+	 * Retrieves a text document record by it's id (the parameter) from 
+	 * the MeSH web service.  This is parsed into the most complete 
+	 * Entity possible (not all MeSH records use all of the fields) and 
+	 * returned.
+	 *  
 	 * @param id String, internal MeSH ID
 	 * @return Entity object
 	 * @throws IOException
@@ -202,7 +204,8 @@ public class MeshDAO {
 	}
 	
 	/**
-	 * Method for parsing XML responses to DOM Document's (encapsulated here because the Java way of doing it is so obtuse).
+	 * Method for parsing XML responses to DOM Document's 
+	 * (encapsulated here because the Java way of doing it is so obtuse).
 	 * @param stream	InputStream of XML information
 	 * @return			XML DOM Document, null on IOException
 	 */
@@ -223,7 +226,8 @@ public class MeshDAO {
 	}
 	
 	/**
-	 * Method for parsing text responses (in the form of InputStream's) to ArrayList<String>, split by '\n'
+	 * Method for parsing text responses (in the form of InputStream's) 
+	 * to ArrayList<String>, split by '\n'
 	 * @param stream	InputStream of text information
 	 * @return			ArrayList<String> split on '\n'; empty on error
 	 */

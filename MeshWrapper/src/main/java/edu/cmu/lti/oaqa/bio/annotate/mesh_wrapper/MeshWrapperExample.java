@@ -17,9 +17,9 @@ public class MeshWrapperExample {
 			System.out.println(tr.toString());
 		System.out.println();
 		
-		System.out.println("getTerm(Alzheimer, true)");
+		System.out.println("getExactTerm(Alzheimer)");
 		try {
-			Term test2 = mdao.getTerm("Alzheimer", true);
+			Term test2 = mdao.getExactTerm("Alzheimer");
 			System.out.println(test2.toString());
 			for (TermRelationship tr : test2.getAllTermRelationships())
 				System.out.println(tr.toString());
@@ -28,8 +28,8 @@ public class MeshWrapperExample {
 		}
 		System.out.println();
 		
-		System.out.println("getTerm(Prions, true)");
-		Term test3 = mdao.getTerm("Prions", true);
+		System.out.println("getExactTerm(Prions)");
+		Term test3 = mdao.getExactTerm("Prions");
 		System.out.println(test3.toString());
 		for (TermRelationship tr : test3.getAllTermRelationships())
 			System.out.println(tr.toString());
