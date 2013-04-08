@@ -19,7 +19,7 @@ public interface ResourceWrapper {
 	 * @param exact true to enable exact matching, false to default to {@link #getTerm(String)}
 	 * @return Term object populated with TermRelationships from the resource
 	 */
-	public Term getTerm(String termQuery, boolean exact);
+	public Term getExactTerm(String termQuery);
 	
 	/**
 	 * Get the top 5 Term results from the resource.
