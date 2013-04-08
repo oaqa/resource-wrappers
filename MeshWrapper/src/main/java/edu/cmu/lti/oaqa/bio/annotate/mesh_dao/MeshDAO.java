@@ -3,7 +3,6 @@ package edu.cmu.lti.oaqa.bio.annotate.mesh_dao;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,11 +18,10 @@ import edu.cmu.lti.oaqa.bio.resource_wrapper.Entity;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.ID;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Origin;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Relation;
-import edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao.ResourceDataAccessObject;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.xml.XMLNode;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.xml.XMLTree;
 
-public class MeshDAO implements ResourceDataAccessObject {
+public class MeshDAO {
 	private static final String baseURL = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/";
 	private static final String esearch = baseURL + "esearch.fcgi?db=mesh&term=";
 	private static final String efetch = baseURL + "efetch.fcgi?db=mesh&retmode=text&id=";
