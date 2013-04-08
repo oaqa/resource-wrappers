@@ -16,7 +16,6 @@ public interface ResourceWrapper {
 	/**
 	 * Get the Term that exactly matches the query parameter.
 	 * @param termQuery String to query the resource for
-	 * @param exact true to enable exact matching, false to default to {@link #getTerm(String)}
 	 * @return Term object populated with TermRelationships from the resource
 	 */
 	public Term getExactTerm(String termQuery);
