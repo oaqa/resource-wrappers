@@ -27,42 +27,59 @@ public class MeshWrapper implements ResourceWrapper {
 	}
 	
 	/**
-	 * Get a complete Term object from MeSH. 
-	 * If the database already contains the top match, then it will be the source for
-	 * the Term.  In the case that multiple entities have the same name, all of their relationships
-	 * will be put into the same 'composite' Term object.
-	 * Caution: may not return exact match to query.  Search is based on
-	 * MeSH native search, try it here: http://www.ncbi.nlm.nih.gov/mesh/
-	 * @param termQuery String to query for
-	 * @return Term object that was the top result from MeSH, or composite from db
+	 * A "smarter" MeSH search function.  Wraps the rough edges of the raw 
+	 * MeSHDAO search.  It accounts for exceptions and automatically retries 
+	 * in the case where the outside service fails.
+	 * 
+	 * @param termQuery String of the term(s) to search for
+	 * @param retry Number of retries to perform in case of bad connection
+	 * @return ArrayList&ltString&gt of MeSH ID's usable for fetching
 	 */
-	public Term getTerm(String termQuery) {
-		Term outputTerm = null;
-		ArrayList<String> searchResults = null;
+	private ArrayList<String> smartSearch(String termQuery, int retry) {
+		// Default return value
+		ArrayList<String> searchResults = new ArrayList<String>(0);
 		
-		// Check cache for term
-		if (this.dbc.inCache(termQuery)) {
-			System.out.println("MeSH term in DB, fetching...");
-			outputTerm = this.dbc.getTerm(termQuery, Origin.MESH);
-		} else {
-			System.out.println("Searching MeSH...");
-			// Search from Mesh and get the top one
+		// empty results usually means an exception occurred, so try again
+		while (searchResults.isEmpty() && retry > 0) {
 			try {
 				searchResults = this.md.search(termQuery);
-			} catch (IOException ioEx) {
-				System.out.println("MeshWraper: MeshDAO search failed due to IOException, probably a bad connection.");
-				ioEx.printStackTrace();
-				return null;
-			}
-			// Fetch first result and convert to Term
+			} catch (IOException ioe) {
+				System.out.println("Retrying search (IOException occurred (bad connection?))...");
+				retry--;
+			} 
+		}
+		
+		return searchResults;
+	}
+	
+	/**
+	 * A "smarter" MeSH fetch function.  Wraps the rough edges of the raw
+	 * MeSHDAO fetch.  It accounts for exceptions and automatically retries
+	 * in the case where the outside service fails.  Also, automatically adds
+	 * the Term to the cache.
+	 * 
+	 * This will still return null if the entry corresponding to <b>id</b>
+	 * cannot be retrieved within the number of retries specified.
+	 * 
+	 * @param id String MeSH identifier
+	 * @param retry Number of retries to perform in case of bad connection
+	 * @return Term corresponding to <b>id</b>, null if no entry could be retrieved
+	 */
+	private Term smartFetch(String id, int retry){
+		Term outputTerm = null;
+		Entity fetched = null;
+		
+		while (fetched == null && retry > 0) {
 			try {
-				outputTerm = EntityTermConverter.EntityToTerm(this.md.fetch(searchResults.get(0)));
-			} catch (IOException e) {
-				System.out.println("MeshWrapper: MeshDAO fetch failed due to IOExcetion, probably a bad connection.");
-				e.printStackTrace();
-				return null;
+				fetched = this.md.fetch(id);
+			} catch (IOException ioe) {
+				System.out.println("Retrying fetch (IOException occurred (bad connection?))...");
+				retry--;
 			}
-			// Add new term to cache
+		}
+		// If fetched is actually an Entity object, convert and add to cache
+		if (fetched != null) {
+			outputTerm = EntityTermConverter.EntityToTerm(fetched);
 			this.dbc.addWholeTerm(outputTerm);
 		}
 		
@@ -70,36 +87,80 @@ public class MeshWrapper implements ResourceWrapper {
 	}
 
 	/**
-	 * Similar to {@link #getTerm(String)}, but with option to enforce exact matching
-	 * to the termQuery String.  Returns null when there is no exact match.
+	 * Get a complete Term object from MeSH. 
+	 * If the cache (database) already contains the top match, then it 
+	 * will be the source for the Term.  In the case that multiple 
+	 * entities have the same name, all of their relationships will be put 
+	 * into the same 'composite' Term object.
+	 * 
+	 * If the database does not contain a match, the MeSH search function is 
+	 * used.  The first result from the search is fetched and returned.
+	 * 
+	 * Caution: may not return exact match to query.  Search is based on
+	 * MeSH native search, try it here: http://www.ncbi.nlm.nih.gov/mesh/
+	 * 
+	 * Caution: may return a null pointer if there were no search results or 
+	 * the web service could not be contacted.
+	 * 
 	 * @param termQuery String to query for
-	 * @param exact boolean to enforce exact matching to termQuery
-	 * @return match Term object, or null
+	 * @return Term object that was the top result from MeSH, or composite 
+	 * from the cache (or null)
 	 */
-	public Term getTerm(String termQuery, boolean exact) {
-		if (exact) {
-			Term outputTerm = null;
-			// Check cache for exact termQuery
-			if (this.dbc.inCache(termQuery))
-				outputTerm = this.dbc.getTerm(termQuery);
-			else {
-				// Mesh - getEntities exact
-				// Not re-implementing it locally because MeSH is fast enough that the request times are tolerable
-				ArrayList<Entity> entList = this.md.getEntities(termQuery, true);
-				// get first, add to cache, return
-				if (entList.size() > 0) {
-					outputTerm = EntityTermConverter.EntityToTerm(entList.get(0));
-					this.dbc.addWholeTerm(outputTerm);
-				}
-			}
-			return outputTerm;
+	public Term getTerm(String termQuery) {
+		Term outputTerm = null;
+		
+		// Check cache for term
+		if (this.dbc.inCache(termQuery)) {
+			outputTerm = this.dbc.getTerm(termQuery, Origin.MESH);
+		} else {
+			ArrayList<String> searchResults = this.smartSearch(termQuery, 1);
+			// If no search results, and thus no valid Terms found, return null (the default)
+			// Otherwise, fetch the first result from the search
+			if (!searchResults.isEmpty())
+				outputTerm = this.smartFetch(searchResults.get(0), 1);
 		}
-		else
-			return this.getTerm(termQuery);
+		return outputTerm;
+	}
+	
+	/**
+	 * Get a complete Term object from MeSH, enforcing an exact match 
+	 * to the input query.
+	 * 
+	 * If the cache (database) already contains the exact match, then it 
+	 * will be the source for the Term.  In the case that multiple 
+	 * entities have the same name, all of their relationships will be put 
+	 * into the same 'composite' Term object.
+	 * 
+	 * If the database does not contain a match, the MeSH search function is 
+	 * used.  The results are iteratively checked until an exact match is 
+	 * found or no results remain.
+	 * 
+	 * @param termQuery String to query for
+	 * @return match Term object, or null if there were no valid results
+	 */
+	public Term getExactTerm(String termQuery) {
+		Term outputTerm = null;
+		// Check cache for exact termQuery
+		if (this.dbc.inCache(termQuery))
+			outputTerm = this.dbc.getTerm(termQuery);
+		else {
+			// Search, iteratively fetch and test results until an exact
+			// match is found or no results remains
+			for (String result : this.smartSearch(termQuery, 1)) {
+				Term t = this.smartFetch(result, 1);
+				if (t != null && t.getTerm().equalsIgnoreCase(termQuery)) {
+					outputTerm = t;
+					break;
+				}	
+			}
+		}
+		return outputTerm;
 	}
 
 	/**
-	 * Same as {@link #getTerms(String, int)} with default of 5 requested results.
+	 * Same as {@link #getTerms(String, int)} with default of 5 requested 
+	 * results.
+	 * 
 	 * @param termQuery String to query for
 	 * @return top 5 results for termQuery
 	 * @see #getTerms(String, int)
@@ -109,66 +170,60 @@ public class MeshWrapper implements ResourceWrapper {
 	}
 
 	/**
-	 * Find a list of Term objects corresponding to the termQuery, limited by amountRequested.
-	 * Will never return a list larger than amountRequested, but may return a smaller list.
-	 * Order of the list is the relevance ranking from MeSH search.
+	 * Find a list of Term objects corresponding to the termQuery, limited 
+	 * by amountRequested.  This function will never return a list larger 
+	 * than amountRequested, but it may return a smaller list.  Order of 
+	 * the list is the relevance ranking from the MeSH search function.
 	 * 
-	 * Database cache is used to retrieve terms whenever possible; when the database does NOT contain
-	 * the required information, the MeSH web service is queried instead.
+	 * The database cache is used to retrieve terms whenever possible; when 
+	 * the database does NOT contain the required information, the MeSH web 
+	 * service is queried instead.
 	 * 
 	 * @param termQuery String to query for
 	 * @param amountRequested Maximum number of results to attempt to find
 	 * @return ArrayList of Terms, size is never greater than amountRequested
 	 */
 	public Collection<Term> getTerms(String termQuery, int amountRequested) {
-		List<String> searchResults = null;
-		ArrayList<Term> termResults = null;
-		// Search MeSH
-		try {
-			searchResults = this.md.search(termQuery);
-		} catch (IOException e) {
-			System.out.println("MeshDAO search failed due to IO.");
-			e.printStackTrace();
-			return null;
-		}
-		// Trim down to amountRequested
-		if (searchResults.size() > amountRequested)
-			searchResults = searchResults.subList(0, amountRequested);
-		termResults = new ArrayList<Term>(searchResults.size());
-		// Try to find them in the cache, otherwise get them from MeSH
-		for (String id : searchResults) {
+		// Search and trim results (if necessary)
+		ArrayList<String> searchResults = this.smartSearch(termQuery, 1);
+		
+		int limit = amountRequested > searchResults.size() ? searchResults.size() : amountRequested;
+		
+		// Iteratively fetch and add
+		ArrayList<Term> termResults = new ArrayList<Term>(limit);
+		for (int i = 0; i < limit; i++) {
+			String id = searchResults.get(i);
+			// Try to find the ID in the cache first, otherwise fetch from MeSH
 			if (this.dbc.IDinCache("MeSH:"+id))
 				termResults.add(this.dbc.getTermByID("MeSH:"+id, Origin.MESH));
 			else {
-				try {
-					Term tempTerm = EntityTermConverter.EntityToTerm(this.md.fetch(id));
-					this.dbc.addWholeTerm(tempTerm);
-					termResults.add(tempTerm);
-				} catch (IOException e) {
-					System.out.println("MeshDAO fetch failed due to IO.");
-					e.printStackTrace();
-				}
+				Term t = this.smartFetch(id, 1);
+				if (t != null)
+					termResults.add(t);
 			}
 		}
+		
 		return termResults;
 	}
 
 	/**
-	 * Convenience method for returning the synonyms of the result of an exact match search for termQuery.
+	 * Convenience method for returning the synonyms of the result of an exact 
+	 * match search for termQuery.
+	 * 
 	 * @param termQuery String to query for
 	 * @return Collection of String synonyms
 	 */
 	public Collection<String> getSynonyms(String termQuery) {
-		Term resultTerm = this.getTerm(termQuery, true);
-		if (resultTerm == null)
-			return new ArrayList<String>(0);
-		else {
-			ArrayList<TermRelationship> results = resultTerm.getTermRelationshipsByRelation("synonym");
-			ArrayList<String> synonyms = new ArrayList<String>(results.size());
-			for (TermRelationship tr : results)
+		ArrayList<String> synonyms = new ArrayList<String>();
+		
+		Term resultTerm = this.getExactTerm(termQuery);
+		if (resultTerm != null) {
+			ArrayList<TermRelationship> termRels = resultTerm.getTermRelationshipsByRelation("synonym");
+			for (TermRelationship tr : termRels)
 				synonyms.add(tr.getToTerm());
-			return synonyms;
 		}
+		
+		return synonyms;
 	}
 	
 	

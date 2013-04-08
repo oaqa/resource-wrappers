@@ -3,6 +3,7 @@ package edu.cmu.lti.oaqa.bio.annotate.mesh_dao;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,31 +42,34 @@ public class MeshDAO implements ResourceDataAccessObject {
 	/**
 	 * Search MeSH using the native search functionality from the web service.
 	 * @param queryTerms String, terms to query for
-	 * @return ArrayList of id Strings, empty on error
+	 * @return ArrayList of id Strings
 	 * @throws IOException
 	 */
-	public ArrayList<String> search(String queryTerms) throws IOException{
+	public ArrayList<String> search(String queryTerms) throws IOException {
 		// Construct HTTP request URL
 		String urlStr = esearch;
 		System.out.println("Searching \"" + queryTerms + "\"...");
 		urlStr += queryTerms.replace(' ', '+');
-		System.out.println(urlStr);
 		
+		// Check the HashMap cache for the search results
 		if (this.searchCache.containsKey(urlStr)) {
+			System.out.println("Key in local cache!");
 			return this.searchCache.get(urlStr);
 		}
 		
+		// Connect to the web service and get the search results
+		System.out.println("Searching with the web service");
 		URL url = new URL(urlStr);
-
-		// Open URL and get XML result
 		InputStream connStream = url.openStream();
+
+		// Get XML result
 		XMLTree xml;
 		// parseXmlResult will return null if an IOException occurs
 		// In this case, the XMLTree constructor will fail due to a NullPointerException
 		try {
 			xml = new XMLTree(parseXmlResult(connStream));
 		} catch (NullPointerException npExXmlTree) {
-			System.out.println("MeshDAO.search: XMLTree of search results was mal-formed, incomplete, or non-existant, rendering it null. Empty results.");
+			System.out.println("MeshDAO.search: XMLTree of search results was malformed, incomplete, or non-existant, rendering it null. Empty results.");
 			npExXmlTree.printStackTrace();
 			return new ArrayList<String>(0);
 		}
@@ -90,14 +94,14 @@ public class MeshDAO implements ResourceDataAccessObject {
 	public Entity fetch(String id) throws IOException {
 		////////// Fetch document //////////
 		System.out.println("Fetching " + id + "...");
-		ArrayList<String> doc;
+		ArrayList<String> doc = null;
 			
-		// Construct URL
-		String urlStr = efetch + id;
-		URL url = new URL(urlStr);
+		String urlStr = efetch + id; // Construct URL
 		
-		// Read and parse InputStream
+		// Connect to the web service and get the specified entity
+		URL url = new URL(urlStr);
 		InputStream connStream = url.openStream();
+		// Read and parse document from connection
 		doc = parseTextResult(connStream);
 		
 		// Add empty string at end to prevent IndexOutOfBoundsExceptions later
@@ -244,96 +248,5 @@ public class MeshDAO implements ResourceDataAccessObject {
 		}
 		return result;
 	}
-	
-	/**
-	 * General query for MeSH.  Uses the built-in search function and returns the top 5 results.
-	 * @param	query	String of search terms to query with
-	 * @return			ArrayList<Entity> of items found using query, empty on error
-	 */
-	public ArrayList<Entity> getEntities(String query) {
-		ArrayList<Entity> results = new ArrayList<Entity>();
-		ArrayList<String> ids;
-		try {ids = search(query);
-		} catch (IOException ioExSearch) {
-			System.out.println("MeshDAO.getEntities: search("+query+") failed due ot IOException, probably a bad connection.");
-			ioExSearch.printStackTrace();
-			return results;
-		}
-		int size = ids.size() < 5 ? ids.size() : 5;
-		for (int i = 0; i < size; i++) {
-			try {
-				Entity temp = fetch(ids.get(i));
-				if (temp != null)
-					results.add(temp);
-			} catch (IOException ioExFetch) {
-				System.out.println("MeshDAO.getEntities: fetch("+ids.get(i)+") failed tue to IOException, probably a bad connection.");
-				ioExFetch.printStackTrace();
-			}
-		}
-		return results;
-	}
-	
-	/**
-	 * Similar to getEntities(query), except the name of the items found with query must exactly match the query (case-insensitive).
-	 * @param	query		String of search terms to query with
-	 * @param	exactMatch	boolean flag for an exact match test on each item
-	 * @return				ArrayList<Entity> of exact matches, empty on error
-	 */
-	public ArrayList<Entity> getEntities(String query, boolean exactMatch) {
-		if (exactMatch) {
-			query = query.trim();
-			ArrayList<Entity> results = new ArrayList<Entity>();
-			ArrayList<String> ids;
-			try { ids = search(query); }
-			catch (IOException ioExSearch) {
-				System.out.println("MeshDAO.getEntities(exact): search("+query+") failed due to IOException, probably a bad connection.");
-				ioExSearch.printStackTrace();
-				return results;
-			}
-			outer: for (int i = 0; i < ids.size(); i++) {
-				try {
-					Entity tempEnt = fetch(ids.get(i));
-					if (tempEnt == null)
-						continue;
-					// search whole name
-					if (tempEnt.getName().equalsIgnoreCase(query)) {
-						results.add(tempEnt);
-						continue;
-					}
-					// if commas are present, search components
-					if (tempEnt.getName().contains(",")) {
-						for (String s : tempEnt.getName().split(",")) {
-							if (s.trim().equalsIgnoreCase(query)) {
-								results.add(tempEnt);
-								continue outer;
-							}
-						}
-					}
-				} catch (IOException ioExFetch) {
-					System.out.println("MeshDAO.getEntities(exact): fetch("+ids.get(i)+") failed due to IOException, probably a bad connection.");
-					ioExFetch.printStackTrace();
-				}
-			}
-			return results;
-		}
-		else
-			return getEntities(query);
-	}
-	
-	/**
-	 * MeSh does not contain ID's from other systems and so there is nothing to go into the Entity ID field.  It does have unique identifiers for internal use, but those aren't found elsewhere.
-	 * Leaving it unimplemented, as any implementation would be more confusing than helpful.
-	 */
-	public Entity getEntityById(String id) {
-		throw new UnsupportedOperationException("Not implemented");
-	}
-	
-	/**
-	 * See {@link #getEntityById(String)}, same thing applies
-	 */
-	public Entity getEntityById(String id, boolean exactMatch) {
-		throw new UnsupportedOperationException("Not implemented");
-	}
-	
-	
+
 }
