@@ -1,6 +1,6 @@
 # Compiled Files #
-*/target/**
-*/bin/**
+**/target/*
+**/bin/*
 *.class
 
 # Package Files #
@@ -9,10 +9,7 @@
 *.ear
 
 # Doc Files #
-*/doc/**
-#*.html
-#*.css
-
+**/doc/*
 
 # Eclipse Files #
 .classpath
