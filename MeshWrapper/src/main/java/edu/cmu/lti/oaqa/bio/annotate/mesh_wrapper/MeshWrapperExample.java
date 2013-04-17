@@ -17,6 +17,17 @@ public class MeshWrapperExample {
 			System.out.println(tr.toString());
 		System.out.println();
 		
+		System.out.println("getExactTerm(asdfghjkl)");
+		try {
+			Term test_badSearch = mdao.getExactTerm("asdfghjkl");
+			System.out.println(test_badSearch.toString());
+			for (TermRelationship tr : test_badSearch.getAllTermRelationships())
+				System.out.println(tr.toString());
+		} catch (NullPointerException e) {
+			System.out.println("No exact match found.");
+		}
+		System.out.println();
+		
 		System.out.println("getExactTerm(Alzheimer)");
 		try {
 			Term test2 = mdao.getExactTerm("Alzheimer");

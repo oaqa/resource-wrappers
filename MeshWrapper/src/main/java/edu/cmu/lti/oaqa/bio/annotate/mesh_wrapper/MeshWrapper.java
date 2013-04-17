@@ -37,14 +37,17 @@ public class MeshWrapper implements ResourceWrapper {
 		// Default return value
 		ArrayList<String> searchResults = new ArrayList<String>(0);
 		
-		// empty results usually means an exception occurred, so try again
-		while (searchResults.isEmpty() && retry > 0) {
+		// Loop until there are valid results or the retry count has been exhausted
+		while (retry >= 0) {
 			try {
 				searchResults = this.md.search(termQuery);
+				break;
 			} catch (IOException ioe) {
-				System.out.println("Retrying search (IOException occurred (bad connection?))...");
+				System.out.println("[MeSH] Retrying search: IOException occurred (bad connection?)");
 				retry--;
-			} 
+			} catch (NullPointerException npe) {
+				System.out.println("[MeSH] Retrying search: NullPointerException occurred (XML problem)");
+			}
 		}
 		
 		return searchResults;

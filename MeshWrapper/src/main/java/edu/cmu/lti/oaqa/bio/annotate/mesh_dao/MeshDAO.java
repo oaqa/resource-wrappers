@@ -30,20 +30,21 @@ public class MeshDAO {
 	private HashMap<String,ArrayList<String>> searchCache;
 	
 	/**
-	 * Constructor.
-	 * Initiates the local search cache.
+	 * Constructor.  Initiates the local search cache.
 	 */
 	public MeshDAO() {
 		this.searchCache = new HashMap<String,ArrayList<String>>();
 	}
 	
 	/**
-	 * Search MeSH using the native search functionality from the web service.
+	 * Search MeSH using the native search functionality from the web
+	 * service.
+	 * 
 	 * @param queryTerms String, terms to query for
 	 * @return ArrayList of id Strings
 	 * @throws IOException
 	 */
-	public ArrayList<String> search(String queryTerms) throws IOException {
+	public ArrayList<String> search(String queryTerms) throws IOException, NullPointerException {
 		// Construct HTTP request URL
 		String urlStr = esearch;
 		System.out.println("Searching \"" + queryTerms + "\"...");
@@ -64,13 +65,8 @@ public class MeshDAO {
 		XMLTree xml;
 		// parseXmlResult will return null if an IOException occurs
 		// In this case, the XMLTree constructor will fail due to a NullPointerException
-		try {
-			xml = new XMLTree(parseXmlResult(connStream));
-		} catch (NullPointerException npExXmlTree) {
-			System.out.println("MeshDAO.search: XMLTree of search results was malformed, incomplete, or non-existant, rendering it null. Empty results.");
-			npExXmlTree.printStackTrace();
-			return new ArrayList<String>(0);
-		}
+		// which must be caught in outside code
+		xml = new XMLTree(parseXmlResult(connStream));
 		
 		// Find ID's and return
 		ArrayList<XMLNode> ids = xml.findNodes("Id");
@@ -82,10 +78,10 @@ public class MeshDAO {
 	
 	/**
 	 * Fetch a MeSH record from the web service.
-	 * Retrieves a text document record by it's id (the parameter) from 
-	 * the MeSH web service.  This is parsed into the most complete 
-	 * Entity possible (not all MeSH records use all of the fields) and 
-	 * returned.
+	 * 
+	 * Retrieves a text document record by it's id (the parameter) from the
+	 * MeSH web service.  This is parsed into the most complete Entity
+	 * possible (not all MeSH records use all of the fields) and returned.
 	 *  
 	 * @param id String, internal MeSH ID
 	 * @return Entity object
@@ -204,8 +200,9 @@ public class MeshDAO {
 	}
 	
 	/**
-	 * Method for parsing XML responses to DOM Document's 
-	 * (encapsulated here because the Java way of doing it is so obtuse).
+	 * Method for parsing XML responses to DOM Documents (encapsulated here
+	 * because the Java way of doing it is so obtuse).
+	 * 
 	 * @param stream	InputStream of XML information
 	 * @return			XML DOM Document, null on IOException
 	 */
@@ -226,8 +223,9 @@ public class MeshDAO {
 	}
 	
 	/**
-	 * Method for parsing text responses (in the form of InputStream's) 
-	 * to ArrayList<String>, split by '\n'
+	 * Method for parsing text responses (in the form of InputStream's) to
+	 * ArrayList of Strings, split by new lines.
+	 * 
 	 * @param stream	InputStream of text information
 	 * @return			ArrayList<String> split on '\n'; empty on error
 	 */
@@ -245,7 +243,7 @@ public class MeshDAO {
 			for (String s : bigStr.split("\n"))
 				result.add(s);
 		} catch (IOException e) {
-			System.out.println("MeshDAO.parseTextResult: IOException, something went wrong (stream not ready?), return null");
+			System.out.println("MeshDAO.parseTextResult: IOException, something went wrong (stream not ready?)");
 			e.printStackTrace();
 		}
 		return result;
