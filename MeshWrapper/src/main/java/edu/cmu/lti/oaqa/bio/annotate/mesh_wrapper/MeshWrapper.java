@@ -70,11 +70,11 @@ public class MeshWrapper implements ResourceWrapper {
 		Term outputTerm = null;
 		Entity fetched = null;
 		
-		while (fetched == null && retry > 0) {
+		while (fetched == null && retry >= 0) {
 			try {
 				fetched = this.md.fetch(id);
 			} catch (IOException ioe) {
-				System.out.println("Retrying fetch (IOException occurred (bad connection?))...");
+				System.out.println("[MeSH] Retrying fetch: IOException occurred (bad connection?)");
 				retry--;
 			}
 		}
