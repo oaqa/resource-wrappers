@@ -3,14 +3,15 @@ package edu.cmu.lti.oaqa.bio.annotate.mesh_wrapper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import edu.cmu.lti.oaqa.bio.annotate.mesh_dao.MeshDAO;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Entity;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.EntityTermConverter;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Origin;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.ResourceWrapper;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Term;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.TermRelationship;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache;
-import edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao.EntityTermConverter;
 
 public class MeshWrapper implements ResourceWrapper {
 	MeshDAO md;

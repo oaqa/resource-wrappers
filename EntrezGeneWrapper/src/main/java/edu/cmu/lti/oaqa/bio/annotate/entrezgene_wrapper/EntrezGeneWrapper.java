@@ -6,12 +6,12 @@ import java.util.Collection;
 
 import edu.cmu.lti.oaqa.bio.annotate.entrezgene_dao.EntrezGeneDAO;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Entity;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.EntityTermConverter;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Origin;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.ResourceWrapper;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Term;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.TermRelationship;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache;
-import edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao.EntityTermConverter;
 
 public class EntrezGeneWrapper implements ResourceWrapper {
 	EntrezGeneDAO egdao;
