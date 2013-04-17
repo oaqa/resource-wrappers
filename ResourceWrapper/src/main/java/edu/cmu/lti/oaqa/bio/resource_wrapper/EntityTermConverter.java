@@ -1,10 +1,5 @@
-package edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao;
+package edu.cmu.lti.oaqa.bio.resource_wrapper;
 
-import edu.cmu.lti.oaqa.bio.resource_wrapper.Entity;
-import edu.cmu.lti.oaqa.bio.resource_wrapper.ID;
-import edu.cmu.lti.oaqa.bio.resource_wrapper.Relation;
-import edu.cmu.lti.oaqa.bio.resource_wrapper.Term;
-import edu.cmu.lti.oaqa.bio.resource_wrapper.TermRelationship;
 
 public class EntityTermConverter {
 	

@@ -2,8 +2,6 @@ package edu.cmu.lti.oaqa.bio.resource_wrapper;
 
 import java.util.ArrayList;
 
-import edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao.ResourceDataAccessObject;
-
 /**
  * A class to represent the general output from any resource or service implementing ResourceWrapper.
  * Represents a name, definition, type, list of synonyms, list of ID's, a list of Relation's, and the source of the information.
@@ -11,7 +9,6 @@ import edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao.ResourceDataAccessObje
  * @author Collin McCormack (cmccorma), Tom Vu (tamv)
  * @see Relation
  * @see ID
- * @see ResourceDataAccessObject
  */
 public class Entity {
 	private String name;
