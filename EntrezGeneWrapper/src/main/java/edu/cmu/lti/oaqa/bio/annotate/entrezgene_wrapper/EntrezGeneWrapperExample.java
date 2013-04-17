@@ -19,22 +19,24 @@ public class EntrezGeneWrapperExample {
 			System.out.println(tr.toString());
 		System.out.println();
 		
-		// getTerm w/ exact matching
-		System.out.println("getTerm(borca1, true):");
-		Term test2 = egWrap.getTerm("borca1", true);
-		try {
+		// getExactTerm
+		System.out.println("getExactTerm(borca1):");
+		Term test2 = egWrap.getExactTerm("borca1");
+		if (test2 == null) {
+			System.out.println("No results found.");
+		} else {
 			System.out.println(test2.toString());
 			for (TermRelationship tr : test2.getAllTermRelationships())
 				System.out.println(tr.toString());
-		} catch (NullPointerException e) {
-			;
 		}
 		System.out.println();
 		
-		// getTerm w/ exact matching
-		System.out.println("getTerm(SHH, true):");
-		Term test3 = egWrap.getTerm("SHH", true);
-		if (test3 != null) {
+		// getExactTerm
+		System.out.println("getTerm(SHH):");
+		Term test3 = egWrap.getExactTerm("SHH");
+		if (test3 == null) {
+			System.out.println("No results found.");
+		} else {
 			System.out.println(test3.toString());
 			for (TermRelationship tr : test3.getAllTermRelationships())
 				System.out.println(tr.toString());

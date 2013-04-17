@@ -13,3 +13,6 @@
 
 # Eclipse Files #
 .classpath
+
+# Utility #
+*/util/docs/*

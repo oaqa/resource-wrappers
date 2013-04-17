@@ -3,9 +3,9 @@ package edu.cmu.lti.oaqa.bio.annotate.entrezgene_wrapper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import edu.cmu.lti.oaqa.bio.annotate.entrezgene_dao.EntrezGeneDAO;
+import edu.cmu.lti.oaqa.bio.resource_wrapper.Entity;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Origin;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.ResourceWrapper;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.Term;
@@ -14,117 +14,161 @@ import edu.cmu.lti.oaqa.bio.resource_wrapper.cache.DBCache;
 import edu.cmu.lti.oaqa.bio.resource_wrapper.resource_dao.EntityTermConverter;
 
 public class EntrezGeneWrapper implements ResourceWrapper {
-	EntrezGeneDAO egw;
+	EntrezGeneDAO egdao;
 	private DBCache dbc;
 	
 	/**
-	 * Constructor.
+	 * Constructor, initializes data access object and Cache connector.
 	 */
 	public EntrezGeneWrapper() {
-		this.egw = new EntrezGeneDAO();
+		this.egdao = new EntrezGeneDAO();
 		this.dbc = new DBCache();
 	}
 	
 	/**
-	 * Get a complete Term object from Entrez Gene. 
-	 * If the database already contains the top match, then it will be the source for
-	 * the Term.  In the case that multiple entities have the same name, all of their relationships
-	 * will be put into the same 'composite' Term object.
-	 * Caution: may not return exact match to query.  Search is based on
-	 * Entrez Gene native search, try it here: http://www.ncbi.nlm.nih.gov/gene
-	 * @param termQuery String to query for
-	 * @return Term object that was the top result from Entrez Gene, or composite from db
+	 * A "smarter" Entrez Gene search function.  Wraps the rough edges of the 
+	 * raw EntreqGeneDAO search.  It accounts for exceptions and automatically 
+	 * retries in the case where the outside service fails.
+	 * 
+	 * @param query String of the term(s) to search for
+	 * @param retry Number of retries to performs in case of bad connection
+	 * @return ArrayList&ltString&gt of Entrez Gene ID's usable for fetching
 	 */
-	public Term getTerm(String termQuery) {
-		Term outputTerm = null;
-		ArrayList<String> searchResults = null;
-		String id = null;
+	private ArrayList<String> smartSearch(String query, int retry) {
+		// Default return value
+		ArrayList<String> searchResults = new ArrayList<String>(0);
 		
-		// Search EG
-		try {
-			searchResults = this.egw.search(termQuery);
-			if (searchResults == null || searchResults.size() == 0)
-				return null;
-			id = searchResults.get(0);
-		} catch (IOException e) {
-			System.out.println("getterm(Str): Entrez Gene web service issue [search]");
-			e.printStackTrace();
+		// Loop until valid search results are obtained or retries are exhausted
+		while (retry >= 0) {
+			try {
+				searchResults = this.egdao.search(query);
+				break;
+			} catch (IOException ioe) {
+				System.out.println("Retrying search: IOException occurred (bad connection?)");
+				retry--;
+			} catch (NullPointerException npe) {
+				System.out.println("Retrying search: NullPointerException occurred (XML problem)");
+				retry--;
+			}
 		}
 		
-		// Check database for first entry; if present, retrieve it
-		if (this.dbc.IDinCache("EntrezGene:"+id))
-			outputTerm = this.dbc.getTermByID("EntrezGene:"+id, Origin.ENTREZGENE);
-		// Else, retrieve it from EG
-		else {
+		return searchResults;
+	}
+	
+	/**
+	 * A "smarter" Entrez Gene fetch function.  Wraps the rough edges of the 
+	 * raw EntrezGeneDAO fetch.  It accounts for exceptions and automatically 
+	 * retries in the case where the outside service fails.  Also, automatically 
+	 * adds the Term to the cache.
+	 * 
+	 * This will still return null if the entry corresponding to id cannot be 
+	 * retrieved within the number of retries specified.
+	 * 
+	 * @param id String Entrez Gene identifier
+	 * @param retry Number of retries to perform in case of bad connection
+	 * @return Term corresponding to id, null if no entry could be retrieved
+	 */
+	private Term smartFetch(String id, int retry) {
+		Term outputTerm = null;
+		Entity fetched = null;
+		
+		while (fetched == null && retry >= 0) {
 			try {
-				outputTerm = EntityTermConverter.EntityToTerm(this.egw.fetch(id));
-			} catch (IOException e) {
-				System.out.println("getTerm(Str): Entrez Gene web service issue [fetch]");
-				e.printStackTrace();
+				fetched = this.egdao.fetch(id);
+				break;
+			} catch (IOException ioe) {
+				System.out.println("Retrying fetch: IOException occurred (bad connection?)");
+				retry--;
+			} catch (NullPointerException npe) {
+				System.out.println("Retrying fetch: NullPointerException occurred (XML problem)");
+				retry--;
 			}
-			// Add to cache
+		}
+		// If fetched is actually an Entity object, convert and add to cache
+		if (fetched != null) {
+			outputTerm = EntityTermConverter.EntityToTerm(fetched);
 			this.dbc.addWholeTerm(outputTerm);
 		}
 		
 		return outputTerm;
 	}
-
+	
 	/**
-	 * Similar to {@link #getTerm(String)}, but with option to enforce exact matching
-	 * to the termQuery String.  Returns null when there is no exact match.
+	 * If the cache (database) already contains the top match, then it will
+	 * be the source for the Term.  In the case that multiple entities have
+	 * the same name, all of their relationships will be put into the same
+	 * 'composite' Term object.
+	 * 
+	 * If the database does not contain a match, the Entrez Gene search
+	 * function is used.  The first result from the search is fetched and
+	 * returned.
+	 * 
+	 * Caution: may not return exact match to query.  Search is based on
+	 * Entrez Gene native search, try it here:
+	 * http://www.ncbi.nlm.nih.gov/gene
+	 * 
+	 * Caution: may return a null pointer if there were no search results or
+	 * the web service could not be contacted.
+	 * 
 	 * @param termQuery String to query for
-	 * @param exact boolean to enforce exact matching to termQuery
-	 * @return match Term object, or null
+	 * @return Term object that was the top result from Entrez Gene, or
+	 * composite from the cache (or null)
 	 */
-	public Term getTerm (String termQuery, boolean exact) {
+	public Term getTerm(String termQuery) {
 		Term outputTerm = null;
-		// Exact matching
-		if (exact) {
-			// Check for exact term presence in cache
-			if (this.dbc.inCache(termQuery)) {
-				System.out.println("Retrieving "+termQuery+" from cache...");
-				outputTerm = this.dbc.getTerm(termQuery, Origin.ENTREZGENE);
-			}
-			// Else, use the original resource to get it
-			else {
-				System.out.println("Retrieving "+termQuery+" from web service...");
-				try {
-					ArrayList<String> searchResults = this.egw.search(termQuery);
-					// Check database for search results, see if they match the query
-					for (String id : searchResults) {
-						if (this.dbc.IDinCache(id)) {
-							Term tempTerm = this.dbc.getTermByID(id, Origin.ENTREZGENE);
-							if (tempTerm.getTerm().equalsIgnoreCase(termQuery)) {
-								outputTerm = tempTerm;
-								break;
-							}
-						}
-						else { // Otherwise, use web service to get info
-							String name = this.egw.getSummary(id);
-							if (name.equalsIgnoreCase(termQuery)) {
-								outputTerm = EntityTermConverter.EntityToTerm(this.egw.fetch(id));
-								break;
-							}
-						}
-					}
-				} catch (IOException ioe) {
-					System.out.println("Search or fetch to Entrez Gene web service failed due to IO.");
-					ioe.printStackTrace();
-				}
-			}
-			// 	Add it to the cache
-			if (outputTerm != null)
-				this.dbc.addWholeTerm(outputTerm);
-		}
-		// Inexact matching
-		else 
-			outputTerm = this.getTerm(termQuery);
 		
+		if (this.dbc.inCache(termQuery)) {
+			outputTerm = this.dbc.getTerm(termQuery, Origin.ENTREZGENE);
+		} else {
+			ArrayList<String> searchResults = this.smartSearch(termQuery, 1);
+			// If no search results, and thus no valid Terms found, return null (the default)
+			// Otherwise, fetch the first result from the search
+			if (!searchResults.isEmpty())
+				outputTerm = this.smartFetch(searchResults.get(0), 1);
+		}
 		return outputTerm;
 	}
 	
 	/**
-	 * Same as {@link #getTerms(String, int)} with default of 5 requested results.
+	 * Get a complete Term object from Entrez Gene, enforcing an exact match
+	 * to the input query.
+	 * 
+	 * If the cache (database) already contains the exact match, then it will
+	 * be the source for the Term.  In the case that multiple entities have
+	 * the same name, all of their relationships will be put into the same
+	 * 'composite' Term object.
+	 * 
+	 * If the database does not contain a match, the Entrez Gene search
+	 * function is used.  The results are iteratively checked until an exact
+	 * match is found or no results remain.
+	 * 
+	 * @param termQuery String to query for
+	 * @return match Term object, or null if there were no valid results
+	 */
+	public Term getExactTerm(String termQuery) {
+		Term outputTerm = null;
+		// Check cache for exact termQuery
+		if (this.dbc.inCache(termQuery))
+			outputTerm = this.dbc.getTerm(termQuery);
+		else {
+			// Search, iteratively fetch and test results until an exact
+			// match is found or no results remains
+			for (String result : this.smartSearch(termQuery, 1)) {
+				Term t = this.smartFetch(result, 1);
+				if (t != null && t.getTerm().equalsIgnoreCase(termQuery)) {
+					outputTerm = t;
+					break;
+				}	
+			}
+		}
+		return outputTerm;
+	}
+
+	
+	/**
+	 * Same as {@link #getTerms(String, int)} with default of 5 requested 
+	 * results.
+	 * 
 	 * @param termQuery String to query for
 	 * @return top 5 results for termQuery
 	 * @see #getTerms(String, int)
@@ -134,64 +178,51 @@ public class EntrezGeneWrapper implements ResourceWrapper {
 	}
 	
 	/**
-	 * Find a list of Term objects corresponding to the termQuery, limited by amountRequested.
-	 * Will never return a list larger than amountRequested, but may return a smaller list.
-	 * Order of the list is the relevance ranking from Entrez Gene search.
+	 * Find a list of Term objects corresponding to the termQuery, limited by
+	 * amountRequested.  This function will never return a list larger than
+	 * amountRequested, but it may return a smaller list.  Order of the list
+	 * is the relevance ranking from the Entrez Gene search function.
 	 * 
-	 * Database cache is used to retrieve terms whenever possible; when the database does NOT contain
-	 * the required information, the Entrez Gene web service is queried instead.
+	 * The database cache is used to retrieve terms whenever possible; when
+	 * the database does NOT contain the required information, the Entrez
+	 * Gene web service is queried instead.
 	 * 
 	 * @param termQuery String to query for
 	 * @param amountRequested Maximum number of results to attempt to find
 	 * @return ArrayList of Terms, size is never greater than amountRequested
 	 */
 	public Collection<Term> getTerms(String termQuery, int amountRequested) {
-		List<String> idResults = null;
-		ArrayList<Term> termResults = null;
-		try {
-			// Search EG for termQuery
-			idResults = this.egw.search(termQuery);
-			// Trim results down to amountRequested, if necessary
-			if (idResults.size() > amountRequested)
-				idResults = idResults.subList(0, amountRequested);
-			termResults = new ArrayList<Term>(idResults.size());
-			// Check database for names
-			for (String id : idResults) {
-				// If present, retrieve from database
-				id = "EntrezGene:"+id;
-				if (this.dbc.IDinCache(id))
-					termResults.add(this.dbc.getTermByID(id, Origin.ENTREZGENE));
-				// Else, retrieve from EG and add to cache
-				else {
-					try {
-						termResults.add(EntityTermConverter.EntityToTerm(this.egw.fetch(id)));
-					} catch (IOException e) {
-						System.out.println("Wasn't able to fetch ID "+id+" from Entrez Gene.  See stack trace below:");
-						e.printStackTrace();
-					}
-				}
+		// Search and trim results (if necessary)
+		ArrayList<String> searchResults = this.smartSearch(termQuery, 1);
+		
+		int limit = amountRequested > searchResults.size() ? searchResults.size() : amountRequested;
+		
+		// Iteratively fetch and add
+		ArrayList<Term> termResults = new ArrayList<Term>(limit);
+		for (int i = 0; i < limit; i++) {
+			String id = searchResults.get(i);
+			// Try to find the ID in the cache first, otherwise fetch from Entrez Gene
+			if (this.dbc.IDinCache("EntrezGene:"+id))
+				termResults.add(this.dbc.getTermByID("EntrezGene:"+id, Origin.ENTREZGENE));
+			else {
+				Term t = this.smartFetch(id, 1);
+				if (t != null)
+					termResults.add(t);
 			}
-			// Add termResults to cache AFTER retrieving all of them
-			// If done before, it will test positive for being in the database if named the same
-			// This short-circuits the retrieval of results for other identically named items
-			// And any different results are lost.
-			for (Term t : termResults)
-				this.dbc.addWholeTerm(t);
-		} catch (IOException ioe) {
-			System.out.println("getTerms(Str): Entrez Gene web service issue [search, summary, fetch]");
-			ioe.printStackTrace();
 		}
 		
 		return termResults;
-	}
+	}		
 
 	/**
-	 * Convenience method for returning the synonyms of the result of an exact match search for termQuery.
+	 * Convenience method for returning the synonyms of the result of an
+	 * exact match search for termQuery.
+	 * 
 	 * @param termQuery String to query for
 	 * @return Collection of String synonyms
 	 */
 	public Collection<String> getSynonyms(String termQuery) {
-		Term resultTerm = this.getTerm(termQuery, true);
+		Term resultTerm = this.getExactTerm(termQuery);
 		if (resultTerm == null)
 			return new ArrayList<String>(0);
 		else {
