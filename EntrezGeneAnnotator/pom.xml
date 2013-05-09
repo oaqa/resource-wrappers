@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>edu.cmu.lti.oaqa.bio.annotate</groupId>
+	<artifactId>entrezgene-annotator</artifactId>
+	<version>0.0.1</version>
+	<parent>
+		<groupId>edu.cmu.lti.oaqa</groupId>
+		<artifactId>oaqa</artifactId>
+		<version>1</version>
+	</parent>
+	<repositories>
+		<repository>
+			<id>oaqa</id>
+			<url>http://mu.lti.cs.cmu.edu:8081/nexus/content/groups/public</url>
+		</repository>
+	</repositories>
+	<dependencies>
+		<dependency>
+			<groupId>edu.cmu.lti.oaqa.core</groupId>
+			<artifactId>core-types</artifactId>
+			<version>0.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.cmu.lti.oaqa.bio.</groupId>
+			<artifactId>bio-types</artifactId>
+			<version>0.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.cmu.lti.oaqa.bio.annotate</groupId>
+			<artifactId>entrezgene-wrapper</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+	</dependencies>
+</project>
