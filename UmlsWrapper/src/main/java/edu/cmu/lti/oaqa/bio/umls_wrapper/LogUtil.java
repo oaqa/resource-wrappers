@@ -1,4 +1,9 @@
 package edu.cmu.lti.oaqa.bio.umls_wrapper;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 public class LogUtil 
 {
 	// Database configuration information
@@ -6,11 +11,25 @@ public class LogUtil
 
     // TODO:  Move this out into a separate resource
     
-    static String jdbcDriver = "com.mysql.jdbc.Driver";
-    //  static String jdbcURL    = "jdbc:mysql://localhost/umls";
-    static String jdbcURL    = "jdbc:mysql://peace.isri.cs.cmu.edu:12321/umls";
-    static String userName   = "root";
-    static String password   = "s3p1apa55w0rd";
+    static String jdbcDriver;
+    static String jdbcURL;
+    static String userName;
+    static String password;
+    
+    static {
+      InputStream in = LogUtil.class.getResourceAsStream("/default.properties");
+      Properties prop = new Properties();
+      try {
+        prop.load(in);
+        in.close();
+        jdbcDriver = prop.getProperty("jdbcDriver");
+        jdbcURL = prop.getProperty("jdbcURL");
+        userName = prop.getProperty("userName");
+        password = prop.getProperty("password");
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
 	
     private static boolean traceEnabled = true;
 	private static int verbosity = 2;

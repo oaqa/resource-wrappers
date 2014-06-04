@@ -1,38 +1,44 @@
 package edu.cmu.lti.oaqa.bio.annotate.umls;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
-import com.google.common.collect.HashMultiset;
-import com.google.common.collect.ImmutableMultiset;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multiset;
-import com.google.common.collect.Multisets;
 import com.google.common.collect.Sets;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
-import com.tinkerpop.blueprints.KeyIndexableGraph;
 import com.tinkerpop.blueprints.Vertex;
-import com.tinkerpop.blueprints.impls.neo4j.Neo4jGraph;
 import com.tinkerpop.blueprints.impls.rexster.RexsterGraph;
 
 import edu.cmu.lti.oaqa.bio.annotate.graph.Concept;
 import edu.cmu.lti.oaqa.bio.annotate.graph.ConceptBundle;
 import edu.cmu.lti.oaqa.bio.annotate.graph.Relationship;
-import edu.cmu.lti.oaqa.graph.core.tools.Search;
-import edu.cmu.lti.oaqa.graph.core.tools.Tools;
-import edu.cmu.lti.oaqa.graph.core.tools.Traversals;
 
 public class GraphQueryEngine {
 
 	RexsterGraph graph;
 	
+	static String url;
+	
+	static {
+    InputStream in = GraphQueryEngine.class.getResourceAsStream("/default.properties");
+    Properties prop = new Properties();
+    try {
+      prop.load(in);
+      in.close();
+      url = prop.getProperty("url");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+	}
+	
 	public GraphQueryEngine(){
-		//this.graph = new RexsterGraph("http://peace.isri.cs.cmu.edu:8182/graphs/UMLSGraph");
-		this.graph = new RexsterGraph("http://peace.isri.cs.cmu.edu:8182/graphs/umls");
+		this.graph = new RexsterGraph(url);
 	}
 	
 	public ConceptBundle search(String searchString){
